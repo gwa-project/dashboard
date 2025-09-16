@@ -1,0 +1,31 @@
+<nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="#home">
+            <strong class="has-text-white">GWA Project</strong>
+        </a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMain">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+    <div id="navbarMain" class="navbar-menu">
+        <div class="navbar-end">
+            <div class="navbar-item has-dropdown is-hoverable" id="userDropdown">
+                <a class="navbar-link">
+                    <img id="userAvatar" class="is-rounded" style="width: 32px; height: 32px; margin-right: 8px;" alt="User Avatar">
+                    <span id="userName">User</span>
+                </a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="#profile/accounts">
+                        <i class="fas fa-user"></i>&nbsp; Profile
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>&nbsp; Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

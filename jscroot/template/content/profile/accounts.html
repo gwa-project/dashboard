@@ -1,0 +1,126 @@
+<div class="column is-9">
+  <section class="hero is-info welcome is-small">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title">Profile Settings</h1>
+        <h2 class="subtitle">
+          Manage your account information and preferences
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <div class="columns">
+    <div class="column is-8">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">Account Information</p>
+        </header>
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-128x128">
+                <img id="profilePicture" class="is-rounded" alt="Profile Picture">
+              </figure>
+            </div>
+            <div class="media-content">
+              <div class="field">
+                <label class="label">Full Name</label>
+                <div class="control">
+                  <input id="profileName" class="input" type="text" placeholder="Your full name">
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Email Address</label>
+                <div class="control">
+                  <input id="profileEmail" class="input" type="email" placeholder="your@email.com" readonly>
+                </div>
+                <p class="help">Email cannot be changed as it's linked to your Google account</p>
+              </div>
+
+              <div class="field">
+                <label class="label">Role</label>
+                <div class="control">
+                  <input id="profileRole" class="input" type="text" readonly>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Member Since</label>
+                <div class="control">
+                  <input id="profileJoined" class="input" type="text" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <a class="card-footer-item" onclick="updateProfile()">
+            <span class="icon"><i class="fa fa-save"></i></span>
+            <span>Save Changes</span>
+          </a>
+        </footer>
+      </div>
+    </div>
+
+    <div class="column is-4">
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">Account Stats</p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <div class="level">
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">Login Count</p>
+                  <p class="title" id="loginCount">0</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="level">
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">Last Login</p>
+                  <p class="title is-6" id="lastLogin">Never</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="level">
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">Account Status</p>
+                  <p class="title is-6">
+                    <span class="tag is-success">Active</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">Google Account</p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <p><strong>Authentication:</strong> Google OAuth</p>
+            <p><strong>Security:</strong> Two-Factor Authentication</p>
+            <p><strong>Permissions:</strong> Profile, Email</p>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <a class="card-footer-item" href="https://myaccount.google.com/" target="_blank">
+            <span class="icon"><i class="fab fa-google"></i></span>
+            <span>Manage Google Account</span>
+          </a>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>

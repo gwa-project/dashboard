@@ -1,0 +1,208 @@
+/* Custom CSS for GWA Project Dashboard */
+
+:root {
+    --primary-color: #3273dc;
+    --secondary-color: #48c774;
+    --accent-color: #ffdd57;
+    --dark-color: #363636;
+    --light-color: #f5f5f5;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--light-color);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Navbar Styles */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-item img {
+    max-height: 32px;
+}
+
+/* Sidebar Styles */
+#sidebar {
+    border-right: 1px solid #dbdbdb;
+    box-shadow: var(--box-shadow);
+}
+
+.menu-list a {
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+}
+
+.menu-list a:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.menu-list a.is-active {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
+}
+
+/* Box Styles */
+.box {
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Button Styles */
+.button {
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    transform: translateY(-1px);
+}
+
+/* Table Styles */
+.table {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: var(--dark-color);
+    color: white;
+    font-weight: 600;
+    border: none;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(50, 115, 220, 0.05);
+}
+
+/* Login Page Styles */
+#loginPage {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+#loginPage .box {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+/* Google Sign-in Button Container */
+.g_id_signin {
+    display: flex !important;
+    justify-content: center !important;
+    margin: 1rem 0 !important;
+}
+
+/* Dashboard Stats Cards */
+.title.is-2 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* Profile Avatar */
+.image.is-128x128 img {
+    border: 3px solid var(--primary-color);
+}
+
+/* Loading Animation */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.fa-spinner {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    #sidebar {
+        display: none !important;
+    }
+
+    .navbar-burger {
+        display: block !important;
+    }
+
+    .columns {
+        margin: 0 !important;
+    }
+
+    .column {
+        padding: 0.5rem !important;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #ffffff;
+    }
+
+    .box {
+        background-color: #2a2a2a;
+        color: #ffffff;
+    }
+
+    .table {
+        background-color: #2a2a2a;
+        color: #ffffff;
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #2366d1;
+}

@@ -1,0 +1,141 @@
+<div class="column is-9">
+  <section class="hero is-info welcome is-small">
+    <div class="hero-body">
+      <div class="container">
+        <h1 class="title" id="biggreet">Hello, Admin.</h1>
+        <h2 class="subtitle" id="subtitle">
+          I hope you are having a great day with GWA Project!
+        </h2>
+      </div>
+    </div>
+  </section>
+  <section class="info-tiles">
+    <div class="tile is-ancestor has-text-centered">
+      <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title" id="bigtotalusers">0</p>
+          <p class="subtitle">Total Users</p>
+        </article>
+      </div>
+      <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title" id="bigactiveusers">0</p>
+          <p class="subtitle">Active Users</p>
+        </article>
+      </div>
+      <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title" id="bigtotalprojects">0</p>
+          <p class="subtitle">Projects</p>
+        </article>
+      </div>
+      <div class="tile is-parent">
+        <article class="tile is-child box">
+          <p class="title" id="bigtotalapi">0</p>
+          <p class="subtitle">API Calls</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  <div class="columns">
+    <div class="column is-6">
+      <div class="card events-card">
+        <header class="card-header">
+          <p class="card-header-title">Recent Users</p>
+          <a href="#" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+              <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </header>
+        <div class="card-table">
+          <div class="content">
+            <table class="table is-fullwidth is-striped">
+              <tbody id="recentUsers"></tbody>
+            </table>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <a href="#users/list" class="card-footer-item">View All Users</a>
+        </footer>
+      </div>
+    </div>
+    <div class="column is-6">
+      <div class="card events-card">
+        <header class="card-header">
+          <p class="card-header-title">System Activity</p>
+          <a href="#" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+              <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </header>
+        <div class="card-table">
+          <div class="content">
+            <table class="table is-fullwidth is-striped">
+              <tbody id="systemActivity"></tbody>
+            </table>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <a href="#logs/activity" class="card-footer-item">View All Logs</a>
+        </footer>
+      </div>
+
+      <div class="card events-card">
+        <header class="card-header">
+          <p class="card-header-title">API Status</p>
+          <a href="#" class="card-header-icon" aria-label="more options">
+            <span class="icon">
+              <i class="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </a>
+        </header>
+        <div class="card-table">
+          <div class="content">
+            <table class="table is-fullwidth is-striped">
+              <tbody id="apiStatus">
+                <tr>
+                  <td>
+                    <span class="icon has-text-success">
+                      <i class="fa fa-check-circle"></i>
+                    </span>
+                    Backend API
+                  </td>
+                  <td>
+                    <span class="tag is-success">Online</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="icon has-text-success">
+                      <i class="fa fa-check-circle"></i>
+                    </span>
+                    Database
+                  </td>
+                  <td>
+                    <span class="tag is-success">Connected</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <span class="icon has-text-success">
+                      <i class="fa fa-check-circle"></i>
+                    </span>
+                    Google OAuth
+                  </td>
+                  <td>
+                    <span class="tag is-success">Active</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <a href="#health" class="card-footer-item">Health Check</a>
+        </footer>
+      </div>
+    </div>
+  </div>
+</div>
