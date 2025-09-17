@@ -65,19 +65,30 @@ function decodeJWT(token) {
 
 // Load configuration from backend and show login
 async function loadConfigAndShowLogin() {
+    // Show loading first
+    showLoadingInterface();
+
     try {
+        console.log('Loading config from:', backend.config);
         const response = await fetch(backend.config);
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
         const configData = await response.json();
+        console.log('Config loaded:', configData);
 
         if (configData.success && configData.data.google_client_id) {
+            console.log('Google Client ID found:', configData.data.google_client_id);
             showLoginInterface(configData.data.google_client_id);
         } else {
-            console.error('Failed to load configuration');
+            console.error('Failed to load configuration:', configData);
             showLoginInterface('');
         }
     } catch (error) {
         console.error('Error loading config:', error);
-        showLoginInterface('');
+        showErrorInterface(error.message);
     }
 }
 
@@ -108,6 +119,8 @@ function showLoginInterface(googleClientId) {
                                      data-shape="rectangular"
                                      data-logo_alignment="left">
                                 </div>
+
+                                <script src="https://accounts.google.com/gsi/client" async defer></script>
                                 ` : `
                                 <div class="notification is-warning">
                                     <strong>Configuration Error:</strong><br>
@@ -128,6 +141,70 @@ function showLoginInterface(googleClientId) {
     `;
     // Add Bulma CSS for login page
     addCSS("https://unpkg.com/bulma@0.9.4/css/bulma.min.css");
+}
+
+// Show loading interface
+function showLoadingInterface() {
+    document.body.innerHTML = `
+        <div class="hero is-fullheight">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <div class="columns is-centered">
+                        <div class="column is-4">
+                            <div class="box">
+                                <h1 class="title">Loading...</h1>
+                                <p class="subtitle">Please wait while we load the application</p>
+                                <progress class="progress is-primary" max="100">Loading</progress>
+                                <p class="is-size-7 has-text-grey">
+                                    Powered by <strong>GoCroot</strong> Framework
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    addCSS("https://unpkg.com/bulma@0.9.4/css/bulma.min.css");
+}
+
+// Show error interface
+function showErrorInterface(errorMessage) {
+    document.body.innerHTML = `
+        <div class="hero is-fullheight">
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <div class="columns is-centered">
+                        <div class="column is-4">
+                            <div class="box">
+                                <h1 class="title has-text-danger">Connection Error</h1>
+                                <p class="subtitle">Unable to connect to backend</p>
+
+                                <div class="notification is-danger">
+                                    <strong>Error:</strong><br>
+                                    ${errorMessage}
+                                </div>
+
+                                <button class="button is-primary" onclick="location.reload()">
+                                    <span class="icon">
+                                        <i class="fa fa-refresh"></i>
+                                    </span>
+                                    <span>Retry</span>
+                                </button>
+
+                                <hr>
+                                <p class="is-size-7 has-text-grey">
+                                    Powered by <strong>GoCroot</strong> Framework
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    addCSS("https://unpkg.com/bulma@0.9.4/css/bulma.min.css");
+    addCSS("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 }
 
 //check cookie login
