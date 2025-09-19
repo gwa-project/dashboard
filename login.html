@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWA Project - Login</title>
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .box {
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        .login-form {
+            padding: 2rem;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #dbdbdb;
+        }
+        .divider span {
+            padding: 0 1rem;
+            color: #7a7a7a;
+            font-size: 0.875rem;
+        }
+        .google-btn {
+            width: 100%;
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .google-btn:hover {
+            background: #357ae8;
+        }
+        .toggle-form {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        .toggle-form a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        .toggle-form a:hover {
+            text-decoration: underline;
+        }
+        .notification {
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-4-desktop is-6-tablet">
+                        <div class="box">
+                            <div class="login-form">
+                                <div class="has-text-centered mb-5">
+                                    <h1 class="title is-3 has-text-primary">GWA Project</h1>
+                                    <p class="subtitle is-6 has-text-grey">Welcome back! Please sign in to your account</p>
+                                </div>
+
+                                <!-- Notification area -->
+                                <div id="notification" class="notification is-hidden">
+                                    <button class="delete" onclick="hideNotification()"></button>
+                                    <span id="notification-message"></span>
+                                </div>
+
+                                <!-- Login Form -->
+                                <form id="loginForm" style="display: block;">
+                                    <div class="field">
+                                        <label class="label">Email</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input" type="email" id="email" placeholder="Enter your email" required>
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-envelope"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">Password</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input" type="password" id="password" placeholder="Enter your password" required>
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-lock"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <div class="control">
+                                            <label class="checkbox">
+                                                <input type="checkbox" id="rememberMe">
+                                                Remember me
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <div class="control">
+                                            <button class="button is-primary is-fullwidth" type="submit" id="loginBtn">
+                                                <span class="icon">
+                                                    <i class="fa fa-sign-in"></i>
+                                                </span>
+                                                <span>Sign In</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <!-- Register Form -->
+                                <form id="registerForm" style="display: none;">
+                                    <div class="field">
+                                        <label class="label">Full Name</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input" type="text" id="regName" placeholder="Enter your full name" required>
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-user"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">Email</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input" type="email" id="regEmail" placeholder="Enter your email" required>
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-envelope"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">Phone Number (Optional)</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input" type="tel" id="regPhone" placeholder="Enter your phone number">
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-phone"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">Password</label>
+                                        <div class="control has-icons-left">
+                                            <input class="input" type="password" id="regPassword" placeholder="Create a password" required>
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-lock"></i>
+                                            </span>
+                                        </div>
+                                        <p class="help">Password must be at least 6 characters long</p>
+                                    </div>
+
+                                    <div class="field">
+                                        <div class="control">
+                                            <button class="button is-success is-fullwidth" type="submit" id="registerBtn">
+                                                <span class="icon">
+                                                    <i class="fa fa-user-plus"></i>
+                                                </span>
+                                                <span>Create Account</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <!-- Divider -->
+                                <div class="divider">
+                                    <span>or</span>
+                                </div>
+
+                                <!-- Google Sign In -->
+                                <div class="field">
+                                    <div class="control">
+                                        <div id="g_id_onload"></div>
+                                        <div id="g_id_signin"></div>
+                                        <button class="google-btn" onclick="triggerGoogleSignIn()" style="display: none;" id="googleBtn">
+                                            <span class="icon">
+                                                <i class="fa fa-google"></i>
+                                            </span>
+                                            <span>Continue with Google</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Toggle Form -->
+                                <div class="toggle-form">
+                                    <p id="toggleText">
+                                        Don't have an account?
+                                        <a href="#" onclick="toggleForm()">Sign up here</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="module">
+        import { authManager } from './jscroot/auth/auth.js';
+        import { backend } from './jscroot/url/config.js';
+
+        let isLoginForm = true;
+        let googleClientId = '';
+
+        // Toggle between login and register forms
+        window.toggleForm = function() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const toggleText = document.getElementById('toggleText');
+
+            if (isLoginForm) {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                toggleText.innerHTML = 'Already have an account? <a href="#" onclick="toggleForm()">Sign in here</a>';
+                isLoginForm = false;
+            } else {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                toggleText.innerHTML = 'Don\'t have an account? <a href="#" onclick="toggleForm()">Sign up here</a>';
+                isLoginForm = true;
+            }
+            hideNotification();
+        };
+
+        // Show notification
+        window.showNotification = function(message, type = 'is-danger') {
+            const notification = document.getElementById('notification');
+            const messageEl = document.getElementById('notification-message');
+
+            notification.className = `notification ${type}`;
+            messageEl.textContent = message;
+            notification.classList.remove('is-hidden');
+        };
+
+        // Hide notification
+        window.hideNotification = function() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('is-hidden');
+        };
+
+        // Set loading state
+        function setLoading(buttonId, isLoading) {
+            const button = document.getElementById(buttonId);
+            if (isLoading) {
+                button.classList.add('is-loading');
+                button.disabled = true;
+            } else {
+                button.classList.remove('is-loading');
+                button.disabled = false;
+            }
+        }
+
+        // Handle login form
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideNotification();
+            setLoading('loginBtn', true);
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            try {
+                const result = await authManager.login(email, password, rememberMe);
+
+                if (result.success) {
+                    showNotification('Login successful! Redirecting...', 'is-success');
+                    setTimeout(() => {
+                        window.location.href = './';
+                    }, 1000);
+                } else {
+                    showNotification(result.error);
+                }
+            } catch (error) {
+                showNotification('An error occurred during login');
+            } finally {
+                setLoading('loginBtn', false);
+            }
+        });
+
+        // Handle register form
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideNotification();
+            setLoading('registerBtn', true);
+
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const phone = document.getElementById('regPhone').value;
+            const password = document.getElementById('regPassword').value;
+
+            try {
+                const result = await authManager.register(name, email, password, phone);
+
+                if (result.success) {
+                    showNotification('Account created successfully! Redirecting...', 'is-success');
+                    setTimeout(() => {
+                        window.location.href = './';
+                    }, 1000);
+                } else {
+                    showNotification(result.error);
+                }
+            } catch (error) {
+                showNotification('An error occurred during registration');
+            } finally {
+                setLoading('registerBtn', false);
+            }
+        });
+
+        // Google Sign-In callback
+        window.handleCredentialResponse = async function(response) {
+            hideNotification();
+
+            try {
+                const rememberMe = document.getElementById('rememberMe')?.checked || false;
+                const result = await authManager.googleLogin(response.credential, rememberMe);
+
+                if (result.success) {
+                    showNotification('Google login successful! Redirecting...', 'is-success');
+                    setTimeout(() => {
+                        window.location.href = './';
+                    }, 1000);
+                } else {
+                    showNotification(result.error);
+                }
+            } catch (error) {
+                showNotification('An error occurred during Google login');
+            }
+        };
+
+        // Trigger Google Sign-In manually
+        window.triggerGoogleSignIn = function() {
+            google.accounts.id.prompt();
+        };
+
+        // Load Google configuration
+        async function loadGoogleConfig() {
+            try {
+                const response = await fetch(backend.config);
+                const configData = await response.json();
+
+                if (configData.success && configData.data.google_client_id) {
+                    googleClientId = configData.data.google_client_id;
+                    initGoogleSignIn();
+                } else {
+                    // Show manual Google button as fallback
+                    document.getElementById('googleBtn').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Failed to load Google config:', error);
+                document.getElementById('googleBtn').style.display = 'block';
+            }
+        }
+
+        // Initialize Google Sign-In
+        function initGoogleSignIn() {
+            if (googleClientId) {
+                const script = document.createElement('script');
+                script.src = 'https://accounts.google.com/gsi/client';
+                script.async = true;
+                script.defer = true;
+
+                script.onload = () => {
+                    google.accounts.id.initialize({
+                        client_id: googleClientId,
+                        callback: handleCredentialResponse,
+                        auto_prompt: false
+                    });
+
+                    google.accounts.id.renderButton(
+                        document.getElementById('g_id_signin'),
+                        {
+                            type: 'standard',
+                            size: 'large',
+                            theme: 'outline',
+                            text: 'continue_with',
+                            shape: 'rectangular',
+                            width: '100%'
+                        }
+                    );
+                };
+
+                document.head.appendChild(script);
+            }
+        }
+
+        // Check if already logged in
+        if (authManager.isLoggedIn()) {
+            window.location.href = './';
+        } else {
+            loadGoogleConfig();
+        }
+    </script>
+</body>
+</html>

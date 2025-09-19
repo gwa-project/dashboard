@@ -7,12 +7,7 @@ import {redirect} from "https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js";
 import { url,id } from "../url/config.js";
 import { getContentURL,getURLContentJS } from "../url/content.js";
 
-// Logout function
-window.logout = function() {
-    deleteCookie("login");
-    redirect("/");
-    window.location.reload();
-}
+// Logout function (moved to index.js with AuthManager)
 
 export function runAfterHashChange(evt){
     insertHTML(getContentURL(),id.content,runAfterContent);

@@ -1,27 +1,38 @@
-import {getJSON} from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
-import {getCookie} from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
 import {setInner} from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
-import {backend} from "../url/config.js";
 
 export function main() {
-    // Load user data and update header
-    getJSON(backend.user.data, "login", getCookie("login"), function(response) {
-        if (response.success && response.data) {
-            const user = response.data;
+    // Get user data from authManager (available globally)
+    const user = window.authManager ? window.authManager.getUser() : null;
 
-            // Update user avatar and name in header
-            const userAvatar = document.getElementById('userAvatar');
-            const userName = document.getElementById('userName');
+    if (user) {
+        // Update user avatar and name in header
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
 
-            if (userAvatar) {
-                userAvatar.src = user.picture || '/assets/img/default-avatar.png';
-            }
-
-            if (userName) {
-                userName.textContent = user.name || 'User';
-            }
+        if (userAvatar) {
+            userAvatar.src = user.picture || 'https://via.placeholder.com/32x32?text=U';
+            userAvatar.alt = user.name || 'User';
         }
-    });
+
+        if (userName) {
+            userName.textContent = user.name || 'User';
+        }
+    } else {
+        // No user data, redirect to login
+        console.warn('No user data found, redirecting to login');
+        window.location.href = './login.html';
+    }
+
+    // Setup navbar burger toggle for mobile
+    const burger = document.querySelector('.navbar-burger');
+    const nav = document.querySelector('#navbarMain');
+
+    if (burger && nav) {
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('is-active');
+            nav.classList.toggle('is-active');
+        });
+    }
 
     console.log("Header view loaded");
 }

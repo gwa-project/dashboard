@@ -15,6 +15,8 @@ export const backend = {
     auth: {
         login: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/login',
         register: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/register',
+        refresh: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/refresh',
+        logout: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/logout',
     },
     config: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/config',
     health: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/health',
