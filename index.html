@@ -1,26 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GWA Project Dashboard</title>
-    <!--========== jscroot ==========-->
-    <script src="jscroot/index.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
-    <!-- Google OAuth -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-  </head>
-  <body>
-    <!--========== HEADER ==========-->
-    <header class="header">
-      <div class="header__container" id="header__container"></div>
-    </header>
+<html class="theme-light">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GWA Project - Welcome</title>
+    <script src="https://kit.fontawesome.com/15181efa86.js" crossorigin="anonymous"></script>
+    <!-- Bulma Version 1-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@1.0.4/css/bulma.min.css" />
+    <style>
+        .ghost-blog-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .post-img img {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .navbar-item:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
 
-    <!--========== NAV ==========-->
-    <div class="nav" id="navbar"></div>
+<body>
+    <section class="hero is-medium ghost-blog-hero">
+        <div class="hero-head">
+            <div class="container">
+                <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+                    <div class="navbar-brand">
+                        <a class="navbar-item has-text-white">
+                            <strong>GWA Project</strong>
+                        </a>
+                    </div>
+                    <div class="navbar-menu">
+                        <div class="navbar-start">
+                            <a class="navbar-item has-text-white is-active">
+                                Home
+                            </a>
+                            <a class="navbar-item has-text-white">
+                                About
+                            </a>
+                            <a class="navbar-item has-text-white">
+                                Features
+                            </a>
+                        </div>
 
-    <!--========== CONTENTS ==========-->
-    <main id="content"></main>
-  </body>
+                        <div class="navbar-end">
+                            <div class="navbar-item">
+                                <a href="#" class="has-text-white">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="has-text-white ml-3">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <img src="https://bulma.io/assets/images/bulma-logo-light.png" width="150" height="40">
+                <h1 class="title is-2 has-text-white">
+                    Welcome to GWA Project
+                </h1>
+                <h2 class="subtitle has-text-white">
+                    Modern authentication system with Google SSO integration
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-posts">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-10 is-offset-1">
+                    <div class="columns featured-post is-multiline">
+                        <div class="column is-12 post">
+                            <article class="columns featured">
+                                <div class="column is-7 post-img">
+                                    <img src="https://cdn.emk.dev/templates/featured-image.png" alt="">
+                                </div>
+                                <div class="column is-5 featured-content va">
+                                    <div>
+                                        <h3 class="heading post-category">Authentication System</h3>
+                                        <h1 class="title post-title">Secure Login & Dashboard</h1>
+                                        <p class="post-excerpt">
+                                            Experience our modern authentication system with Google SSO integration.
+                                            Secure, fast, and user-friendly dashboard for managing your projects and data.
+                                        </p>
+                                        <br>
+                                        <a href="./login.html" class="button is-primary is-large">
+                                            <span class="icon">
+                                                <i class="fas fa-sign-in-alt"></i>
+                                            </span>
+                                            <span>Login Now</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="columns is-multiline">
+                        <div class="column post is-6">
+                            <article class="columns is-multiline">
+                                <div class="column is-12 post-img">
+                                    <img src="https://cdn.emk.dev/templates/post-img.png" alt="Features">
+                                </div>
+                                <div class="column is-12 featured-content">
+                                    <h3 class="heading post-category">Features</h3>
+                                    <h1 class="title post-title">Google SSO Integration</h1>
+                                    <p class="post-excerpt">
+                                        Sign in seamlessly with your Google account. No need to remember another password.
+                                    </p>
+                                    <br>
+                                    <a href="./login.html" class="button is-primary">Learn More</a>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="column post is-6">
+                            <article class="columns is-multiline">
+                                <div class="column is-12 post-img">
+                                    <img src="https://cdn.emk.dev/templates/post-img.png" alt="Security">
+                                </div>
+                                <div class="column is-12 featured-content">
+                                    <h3 class="heading post-category">Security</h3>
+                                    <h1 class="title post-title">PASETO Token Security</h1>
+                                    <p class="post-excerpt">
+                                        Advanced security with PASETO tokens, password hashing, and secure session management.
+                                    </p>
+                                    <br>
+                                    <a href="./login.html" class="button is-primary">Get Started</a>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="column post is-4">
+                            <article class="columns is-multiline">
+                                <div class="column is-12 post-img">
+                                    <img src="https://cdn.emk.dev/templates/post-img.png" alt="Dashboard">
+                                </div>
+                                <div class="column is-12 featured-content">
+                                    <h3 class="heading post-category">Dashboard</h3>
+                                    <h1 class="title post-title">Modern Interface</h1>
+                                    <p class="post-excerpt">
+                                        Clean and intuitive dashboard interface built with modern web technologies.
+                                    </p>
+                                    <br>
+                                    <a href="./login.html" class="button is-primary">Try Now</a>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="column post is-4">
+                            <article class="columns is-multiline">
+                                <div class="column is-12 post-img">
+                                    <img src="https://cdn.emk.dev/templates/post-img.png" alt="API">
+                                </div>
+                                <div class="column is-12 featured-content">
+                                    <h3 class="heading post-category">API</h3>
+                                    <h1 class="title post-title">RESTful API</h1>
+                                    <p class="post-excerpt">
+                                        Complete RESTful API with authentication endpoints for developers.
+                                    </p>
+                                    <br>
+                                    <a href="./login.html" class="button is-primary">Access API</a>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="column post is-4">
+                            <article class="columns is-multiline">
+                                <div class="column is-12 post-img">
+                                    <img src="https://cdn.emk.dev/templates/post-img.png" alt="Cloud">
+                                </div>
+                                <div class="column is-12 featured-content">
+                                    <h3 class="heading post-category">Cloud</h3>
+                                    <h1 class="title post-title">Google Cloud Platform</h1>
+                                    <p class="post-excerpt">
+                                        Deployed on Google Cloud Functions with scalable and reliable infrastructure.
+                                    </p>
+                                    <br>
+                                    <a href="./login.html" class="button is-primary">Login</a>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="content has-text-centered">
+                <p>
+                    <strong>GWA Project</strong> - Modern authentication system with Google SSO integration.
+                </p>
+                <p>
+                    Built with ❤️ using Go, MongoDB, and Google Cloud Platform.
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
 </html>
