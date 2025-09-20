@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GWA Project - Dashboard</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/img/favicon.png">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <!-- Bulma Version 1-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@1.0.2/css/bulma.min.css" />
+    <style>
+        .navbar {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .aside {
+            background: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+        }
+        .main-content {
+            padding: 2rem;
+        }
+        .card {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+        }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: #495057;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 0.25rem;
+            transition: all 0.3s ease;
+        }
+        .menu-item:hover, .menu-item.active {
+            background: #667eea;
+            color: white;
+        }
+        .menu-item .icon {
+            margin-right: 0.75rem;
+            width: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar has-shadow">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="./">
+                    <strong>GWA Project</strong>
+                </a>
+                <div class="navbar-burger burger" data-target="navMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <img id="userAvatar" class="user-avatar" src="https://via.placeholder.com/40x40?text=U" alt="User Avatar">
+                        <span id="userName" style="margin-left: 0.5rem;">User</span>
+                    </a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" href="#profile">
+                            <i class="fa fa-user"></i>&nbsp; Profile
+                        </a>
+                        <a class="navbar-item" href="#settings">
+                            <i class="fa fa-cog"></i>&nbsp; Settings
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" onclick="logout()">
+                            <i class="fa fa-sign-out"></i>&nbsp; Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="columns" id="main-app" style="margin: 0; min-height: calc(100vh - 3.25rem);">
+        <aside class="column is-2 aside">
+            <div style="padding: 1.5rem 1rem;">
+                <div style="margin-bottom: 2rem;">
+                    <a href="#dashboard" class="button is-danger is-block">
+                        <span class="icon">
+                            <i class="fa fa-plus"></i>
+                        </span>
+                        <span>New Project</span>
+                    </a>
+                </div>
+                <div class="menu">
+                    <a href="#dashboard" class="menu-item active">
+                        <span class="icon"><i class="fa fa-dashboard"></i></span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#projects" class="menu-item">
+                        <span class="icon"><i class="fa fa-folder"></i></span>
+                        <span>Projects</span>
+                    </a>
+                    <a href="#users" class="menu-item">
+                        <span class="icon"><i class="fa fa-users"></i></span>
+                        <span>Users</span>
+                    </a>
+                    <a href="#analytics" class="menu-item">
+                        <span class="icon"><i class="fa fa-bar-chart"></i></span>
+                        <span>Analytics</span>
+                    </a>
+                    <a href="#settings" class="menu-item">
+                        <span class="icon"><i class="fa fa-cog"></i></span>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="column main-content">
+            <!-- Dashboard Content -->
+            <div id="dashboard-content">
+                <div class="level">
+                    <div class="level-left">
+                        <div class="level-item">
+                            <div>
+                                <h1 class="title">Dashboard</h1>
+                                <p class="subtitle">Welcome back! Here's what's happening.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="level-right">
+                        <div class="level-item">
+                            <button class="button is-primary">
+                                <span class="icon">
+                                    <i class="fa fa-download"></i>
+                                </span>
+                                <span>Export Data</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="columns">
+                    <div class="column">
+                        <div class="card stats-card">
+                            <div class="card-content">
+                                <div class="level">
+                                    <div class="level-left">
+                                        <div>
+                                            <p class="title has-text-white">24</p>
+                                            <p class="subtitle has-text-white">Total Projects</p>
+                                        </div>
+                                    </div>
+                                    <div class="level-right">
+                                        <span class="icon is-large has-text-white">
+                                            <i class="fa fa-folder-o fa-2x"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="level">
+                                    <div class="level-left">
+                                        <div>
+                                            <p class="title">156</p>
+                                            <p class="subtitle">Active Users</p>
+                                        </div>
+                                    </div>
+                                    <div class="level-right">
+                                        <span class="icon is-large has-text-primary">
+                                            <i class="fa fa-users fa-2x"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="level">
+                                    <div class="level-left">
+                                        <div>
+                                            <p class="title">89%</p>
+                                            <p class="subtitle">Success Rate</p>
+                                        </div>
+                                    </div>
+                                    <div class="level-right">
+                                        <span class="icon is-large has-text-success">
+                                            <i class="fa fa-check-circle fa-2x"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="level">
+                                    <div class="level-left">
+                                        <div>
+                                            <p class="title">$2,439</p>
+                                            <p class="subtitle">Revenue</p>
+                                        </div>
+                                    </div>
+                                    <div class="level-right">
+                                        <span class="icon is-large has-text-warning">
+                                            <i class="fa fa-dollar fa-2x"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="columns">
+                    <div class="column is-8">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Recent Projects
+                                </p>
+                            </header>
+                            <div class="card-content">
+                                <div class="content" id="recent-projects">
+                                    <p>Loading recent projects...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Quick Actions
+                                </p>
+                            </header>
+                            <div class="card-content">
+                                <div class="content">
+                                    <a href="#new-project" class="button is-primary is-fullwidth" style="margin-bottom: 0.5rem;">
+                                        <span class="icon">
+                                            <i class="fa fa-plus"></i>
+                                        </span>
+                                        <span>New Project</span>
+                                    </a>
+                                    <a href="#invite-user" class="button is-info is-fullwidth" style="margin-bottom: 0.5rem;">
+                                        <span class="icon">
+                                            <i class="fa fa-user-plus"></i>
+                                        </span>
+                                        <span>Invite User</span>
+                                    </a>
+                                    <a href="#settings" class="button is-light is-fullwidth">
+                                        <span class="icon">
+                                            <i class="fa fa-cog"></i>
+                                        </span>
+                                        <span>Settings</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { authManager } from './jscroot/auth/auth.js';
+
+        // Check if user is logged in
+        if (!authManager.isLoggedIn()) {
+            window.location.href = './login.html';
+        }
+
+        // Load user data
+        const user = authManager.getUser();
+        if (user) {
+            document.getElementById('userName').textContent = user.name || 'User';
+            document.getElementById('userAvatar').src = user.picture || 'https://via.placeholder.com/40x40?text=U';
+        }
+
+        // Global logout function
+        window.logout = async function() {
+            try {
+                await authManager.serverLogout();
+            } catch (error) {
+                console.error('Logout error:', error);
+            } finally {
+                window.location.href = './home.html';
+            }
+        };
+
+        // Load recent projects
+        async function loadRecentProjects() {
+            try {
+                const response = await authManager.makeAuthenticatedRequest('/users');
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        const projectsContainer = document.getElementById('recent-projects');
+                        if (result.data && result.data.length > 0) {
+                            projectsContainer.innerHTML = result.data.slice(0, 5).map(user => `
+                                <div class="box" style="margin-bottom: 0.5rem;">
+                                    <div class="level">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <figure class="image is-32x32">
+                                                    <img class="is-rounded" src="${user.picture || 'https://via.placeholder.com/32x32?text=U'}" alt="${user.name}">
+                                                </figure>
+                                            </div>
+                                            <div class="level-item">
+                                                <div>
+                                                    <p class="subtitle is-6">${user.name}</p>
+                                                    <p class="subtitle is-7 has-text-grey">${user.email}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="level-right">
+                                            <span class="tag is-primary">${user.role || 'user'}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('');
+                        } else {
+                            projectsContainer.innerHTML = '<p class="has-text-grey">No recent activity</p>';
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading projects:', error);
+                document.getElementById('recent-projects').innerHTML = '<p class="has-text-danger">Error loading data</p>';
+            }
+        }
+
+        // Menu click handlers
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+
+                const href = this.getAttribute('href');
+                console.log('Navigate to:', href);
+                // You can implement routing here
+            });
+        });
+
+        // Load data
+        loadRecentProjects();
+
+        // Burger menu toggle
+        document.querySelector('.navbar-burger').addEventListener('click', () => {
+            document.querySelector('.navbar-burger').classList.toggle('is-active');
+            document.querySelector('#navMenu').classList.toggle('is-active');
+        });
+    </script>
+</body>
+</html>

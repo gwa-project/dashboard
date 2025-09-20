@@ -1,21 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>GWA Project - Login</title>
-    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Bulma Version 1-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@1.0.4/css/bulma.min.css" />
     <style>
-        .hero {
+        body {
+            font-family: 'Nunito Sans', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
-        .box {
+        .login {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            padding: 3rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .input {
+            border: 2px solid #e8e8e8;
             border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
-        .login-form {
-            padding: 2rem;
+        .input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .button.is-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .button.is-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        .google-btn {
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 1rem;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .google-btn:hover {
+            background: #357ae8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(66, 133, 244, 0.3);
         }
         .divider {
             display: flex;
@@ -27,55 +72,50 @@
             content: '';
             flex: 1;
             height: 1px;
-            background: #dbdbdb;
+            background: #e8e8e8;
         }
         .divider span {
             padding: 0 1rem;
-            color: #7a7a7a;
+            color: #8a8a8a;
             font-size: 0.875rem;
-        }
-        .google-btn {
-            width: 100%;
-            background: #4285f4;
-            color: white;
-            border: none;
-            padding: 0.75rem;
-            border-radius: 6px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .google-btn:hover {
-            background: #357ae8;
         }
         .toggle-form {
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
         .toggle-form a {
             color: #667eea;
             text-decoration: none;
+            font-weight: 600;
         }
         .toggle-form a:hover {
             text-decoration: underline;
         }
         .notification {
-            border-radius: 8px;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .field {
+            margin-bottom: 1.5rem;
         }
     </style>
 </head>
 <body>
     <section class="hero is-fullheight">
-        <div class="hero-body">
-            <div class="container">
-                <div class="columns is-centered">
-                    <div class="column is-4-desktop is-6-tablet">
-                        <div class="box">
-                            <div class="login-form">
-                                <div class="has-text-centered mb-5">
-                                    <h1 class="title is-3 has-text-primary">GWA Project</h1>
-                                    <p class="subtitle is-6 has-text-grey">Welcome back! Please sign in to your account</p>
-                                </div>
+        <div class="hero-body has-text-centered">
+            <div class="login">
+                <div class="logo-container">
+                    <svg id="logo-6" width="200" viewBox="0 0 134 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.45 6.64999V2.39999H2.05V31.6H15.45V27.35C12.705 27.35 10.0724 26.2595 8.13144 24.3185C6.19044 22.3775 5.1 19.745 5.1 17C5.1 14.255 6.19044 11.6224 8.13144 9.68144C10.0724 7.74044 12.705 6.64999 15.45 6.64999V6.64999Z" class="ccustom" fill="#667eea"></path>
+                        <path d="M15.45 6.64999V27.35C18.195 27.35 20.8276 26.2595 22.7686 24.3185C24.7096 22.3775 25.8 19.745 25.8 17C25.8 14.255 24.7096 11.6224 22.7686 9.68144C20.8276 7.74044 18.195 6.64999 15.45 6.64999V6.64999Z" class="ccustom" fill="#667eea"></path>
+                    </svg>
+                    <h1 class="title is-4" style="margin-top: 1rem;">Welcome Back</h1>
+                    <p class="subtitle is-6 has-text-grey">Sign in to your account</p>
+                </div>
 
                                 <!-- Notification area -->
                                 <div id="notification" class="notification is-hidden">
@@ -83,103 +123,61 @@
                                     <span id="notification-message"></span>
                                 </div>
 
-                                <!-- Login Form -->
-                                <form id="loginForm" style="display: block;">
-                                    <div class="field">
-                                        <label class="label">Email</label>
-                                        <div class="control has-icons-left">
-                                            <input class="input" type="email" id="email" placeholder="Enter your email" required>
-                                            <span class="icon is-small is-left">
-                                                <i class="fa fa-envelope"></i>
-                                            </span>
-                                        </div>
-                                    </div>
+                <!-- Login Form -->
+                <form id="loginForm" style="display: block;">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="email" id="email" placeholder="hello@example.com" autocomplete="username" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="password" id="password" placeholder="**********" autocomplete="current-password" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <label class="checkbox">
+                                <input type="checkbox" id="rememberMe">
+                                Remember me
+                            </label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <button class="button is-block is-fullwidth is-primary is-medium is-rounded" type="submit" id="loginBtn">
+                            Sign In
+                        </button>
+                    </div>
+                </form>
 
-                                    <div class="field">
-                                        <label class="label">Password</label>
-                                        <div class="control has-icons-left">
-                                            <input class="input" type="password" id="password" placeholder="Enter your password" required>
-                                            <span class="icon is-small is-left">
-                                                <i class="fa fa-lock"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="field">
-                                        <div class="control">
-                                            <label class="checkbox">
-                                                <input type="checkbox" id="rememberMe">
-                                                Remember me
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div class="field">
-                                        <div class="control">
-                                            <button class="button is-primary is-fullwidth" type="submit" id="loginBtn">
-                                                <span class="icon">
-                                                    <i class="fa fa-sign-in"></i>
-                                                </span>
-                                                <span>Sign In</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <!-- Register Form -->
-                                <form id="registerForm" style="display: none;">
-                                    <div class="field">
-                                        <label class="label">Full Name</label>
-                                        <div class="control has-icons-left">
-                                            <input class="input" type="text" id="regName" placeholder="Enter your full name" required>
-                                            <span class="icon is-small is-left">
-                                                <i class="fa fa-user"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="field">
-                                        <label class="label">Email</label>
-                                        <div class="control has-icons-left">
-                                            <input class="input" type="email" id="regEmail" placeholder="Enter your email" required>
-                                            <span class="icon is-small is-left">
-                                                <i class="fa fa-envelope"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="field">
-                                        <label class="label">Phone Number (Optional)</label>
-                                        <div class="control has-icons-left">
-                                            <input class="input" type="tel" id="regPhone" placeholder="Enter your phone number">
-                                            <span class="icon is-small is-left">
-                                                <i class="fa fa-phone"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <div class="field">
-                                        <label class="label">Password</label>
-                                        <div class="control has-icons-left">
-                                            <input class="input" type="password" id="regPassword" placeholder="Create a password" required>
-                                            <span class="icon is-small is-left">
-                                                <i class="fa fa-lock"></i>
-                                            </span>
-                                        </div>
-                                        <p class="help">Password must be at least 6 characters long</p>
-                                    </div>
-
-                                    <div class="field">
-                                        <div class="control">
-                                            <button class="button is-success is-fullwidth" type="submit" id="registerBtn">
-                                                <span class="icon">
-                                                    <i class="fa fa-user-plus"></i>
-                                                </span>
-                                                <span>Create Account</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                <!-- Register Form -->
+                <form id="registerForm" style="display: none;">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="text" id="regName" placeholder="Full Name" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="email" id="regEmail" placeholder="hello@example.com" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="tel" id="regPhone" placeholder="Phone Number (Optional)" />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="password" id="regPassword" placeholder="Password (min 6 chars)" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <button class="button is-block is-fullwidth is-primary is-medium is-rounded" type="submit" id="registerBtn">
+                            Create Account
+                        </button>
+                    </div>
+                </form>
 
                                 <!-- Divider -->
                                 <div class="divider">
@@ -200,17 +198,19 @@
                                     </div>
                                 </div>
 
-                                <!-- Toggle Form -->
-                                <div class="toggle-form">
-                                    <p id="toggleText">
-                                        Don't have an account?
-                                        <a href="#" onclick="toggleForm()">Sign up here</a>
-                                    </p>
-                                </div>
-                            </div>
+                <!-- Toggle Form -->
+                <nav class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <a href="./home.html">← Back to Home</a>
                         </div>
                     </div>
-                </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <a href="#" onclick="toggleForm()" id="toggleText">Create an Account</a>
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </section>
@@ -231,12 +231,12 @@
             if (isLoginForm) {
                 loginForm.style.display = 'none';
                 registerForm.style.display = 'block';
-                toggleText.innerHTML = 'Already have an account? <a href="#" onclick="toggleForm()">Sign in here</a>';
+                toggleText.textContent = 'Already have an account?';
                 isLoginForm = false;
             } else {
                 loginForm.style.display = 'block';
                 registerForm.style.display = 'none';
-                toggleText.innerHTML = 'Don\'t have an account? <a href="#" onclick="toggleForm()">Sign up here</a>';
+                toggleText.textContent = 'Create an Account';
                 isLoginForm = true;
             }
             hideNotification();
@@ -286,7 +286,7 @@
                 if (result.success) {
                     showNotification('Login successful! Redirecting...', 'is-success');
                     setTimeout(() => {
-                        window.location.href = './';
+                        window.location.href = './dashboard.html';
                     }, 1000);
                 } else {
                     showNotification(result.error);
@@ -315,7 +315,7 @@
                 if (result.success) {
                     showNotification('Account created successfully! Redirecting...', 'is-success');
                     setTimeout(() => {
-                        window.location.href = './';
+                        window.location.href = './dashboard.html';
                     }, 1000);
                 } else {
                     showNotification(result.error);
@@ -338,7 +338,7 @@
                 if (result.success) {
                     showNotification('Google login successful! Redirecting...', 'is-success');
                     setTimeout(() => {
-                        window.location.href = './';
+                        window.location.href = './dashboard.html';
                     }, 1000);
                 } else {
                     showNotification(result.error);
