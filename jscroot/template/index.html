@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html class="theme-light">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GWA Project - Welcome</title>
+    <script src="https://kit.fontawesome.com/15181efa86.js" crossorigin="anonymous"></script>
+    <!-- Bulma Version 1-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@1.0.4/css/bulma.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-gradient: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        .modern-hero {
+            background: var(--primary-gradient);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modern-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="150" fill="url(%23a)"/><circle cx="800" cy="300" r="100" fill="url(%23a)"/><circle cx="300" cy="700" r="120" fill="url(%23a)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .modern-navbar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-burger {
+            color: white;
+        }
+
+        .navbar-item {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-item:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-radius: 8px;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ff8787);
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            padding: 0.9rem 2.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .features-section {
+            padding: 5rem 0;
+            background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            font-size: 1.2rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .icon-auth { background: var(--primary-gradient); }
+        .icon-security { background: var(--secondary-gradient); }
+        .icon-dashboard { background: var(--accent-gradient); }
+        .icon-api { background: var(--dark-gradient); }
+        .icon-cloud { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+        .icon-sso { background: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%); }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: #6c757d;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-link {
+            color: #667eea;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .feature-link:hover {
+            color: #764ba2;
+        }
+
+        .stats-section {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 3rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .modern-footer {
+            background: #2c3e50;
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .footer-content {
+            text-align: center;
+        }
+
+        .footer-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .feature-card {
+                margin-bottom: 2rem;
+            }
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .shape:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 60px; height: 60px; left: 20%; animation-delay: 2s; }
+        .shape:nth-child(3) { width: 100px; height: 100px; left: 70%; animation-delay: 4s; }
+        .shape:nth-child(4) { width: 120px; height: 120px; left: 80%; animation-delay: 6s; }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Modern Hero Section -->
+    <section class="hero is-fullheight modern-hero">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+
+        <div class="hero-head">
+            <div class="container">
+                <nav class="navbar modern-navbar" role="navigation" aria-label="main navigation">
+                    <div class="navbar-brand">
+                        <a class="navbar-item has-text-white">
+                            <i class="fas fa-shield-alt mr-2"></i>
+                            <strong>GWA Project</strong>
+                        </a>
+                        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                            <span aria-hidden="true"></span>
+                        </a>
+                    </div>
+                    <div id="navbarMenu" class="navbar-menu">
+                        <div class="navbar-start">
+                            <a href="#home" class="navbar-item is-active">Home</a>
+                            <a href="#features" class="navbar-item">Features</a>
+                            <a href="#about" class="navbar-item">About</a>
+                        </div>
+                        <div class="navbar-end">
+                            <div class="navbar-item">
+                                <div class="buttons">
+                                    <a href="./login.html" class="button btn-secondary">
+                                        <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+                                        <span>Login</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+
+        <div class="hero-body">
+            <div class="container hero-content">
+                <div class="columns is-vcentered">
+                    <div class="column is-6">
+                        <h1 class="hero-title">
+                            GWA Project
+                        </h1>
+                        <p class="hero-subtitle">
+                            Ini adalah testing project
+                        </p>
+                        <div class="cta-buttons">
+                            <a href="./login.html" class="btn-primary">
+                                <span class="icon mr-2"><i class="fas fa-rocket"></i></span>
+                                Get Started Now
+                            </a>
+                            <a href="#features" class="btn-secondary">
+                                <span class="icon mr-2"><i class="fas fa-play"></i></span>
+                                Learn More
+                            </a>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="has-text-centered">
+                            <div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 3rem; backdrop-filter: blur(10px);">
+                                <i class="fas fa-lock fa-5x mb-4" style="color: rgba(255,255,255,0.9);"></i>
+                                <h3 class="title is-4 has-text-white mb-3">Enterprise Security</h3>
+                                <p class="has-text-white" style="opacity: 0.9;">Built with modern security standards and best practices</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section" id="stats">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-3">
+                    <div class="stat-item">
+                        <span class="stat-number">99.9%</span>
+                        <p class="stat-label">Uptime</p>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="stat-item">
+                        <span class="stat-number">10K+</span>
+                        <p class="stat-label">Users</p>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="stat-item">
+                        <span class="stat-number">256-bit</span>
+                        <p class="stat-label">Encryption</p>
+                    </div>
+                </div>
+                <div class="column is-3">
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <p class="stat-label">Support</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Powerful Features</h2>
+                <p>Everything you need for secure authentication and user management</p>
+            </div>
+
+            <div class="columns is-multiline">
+                <!-- Google SSO Integration -->
+                <div class="column is-4">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-sso">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <h3 class="feature-title">Google SSO Integration</h3>
+                        <p class="feature-description">
+                            Sign in seamlessly with your Google account. No need to remember another password - secure and convenient authentication.
+                        </p>
+                        <a href="./login.html" class="feature-link">
+                            Try Google Login <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PASETO Token Security -->
+                <div class="column is-4">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-security">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="feature-title">PASETO Token Security</h3>
+                        <p class="feature-description">
+                            Advanced security with PASETO tokens, password hashing, and secure session management for enterprise-grade protection.
+                        </p>
+                        <a href="./login.html" class="feature-link">
+                            Learn Security <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Modern Dashboard -->
+                <div class="column is-4">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h3 class="feature-title">Modern Dashboard</h3>
+                        <p class="feature-description">
+                            Clean and intuitive dashboard interface built with modern web technologies and responsive design.
+                        </p>
+                        <a href="./admin.html" class="feature-link">
+                            View Dashboard <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- RESTful API -->
+                <div class="column is-4">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-api">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="feature-title">RESTful API</h3>
+                        <p class="feature-description">
+                            Complete RESTful API with authentication endpoints for developers. Easy integration with your applications.
+                        </p>
+                        <a href="#" class="feature-link">
+                            API Documentation <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Cloud Infrastructure -->
+                <div class="column is-4">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-cloud">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3 class="feature-title">Cloud Infrastructure</h3>
+                        <p class="feature-description">
+                            Deployed on Google Cloud Functions with scalable and reliable infrastructure for global performance.
+                        </p>
+                        <a href="#" class="feature-link">
+                            Learn More <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- User Management -->
+                <div class="column is-4">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-auth">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="feature-title">User Management</h3>
+                        <p class="feature-description">
+                            Comprehensive user management system with role-based access control and administrative features.
+                        </p>
+                        <a href="./login.html" class="feature-link">
+                            Manage Users <i class="fas fa-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="modern-footer" id="about">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-shield-alt mr-2"></i>
+                    GWA Project
+                </div>
+                <p class="footer-description">
+                    Modern authentication system with Google SSO integration, built for security and scalability.
+                </p>
+
+                <div class="social-links">
+                    <a href="#" class="social-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-4">
+                        <h4 class="title is-6 has-text-white">Product</h4>
+                        <p><a href="#features" class="has-text-light">Features</a></p>
+                        <p><a href="./login.html" class="has-text-light">Login</a></p>
+                        <p><a href="./admin.html" class="has-text-light">Dashboard</a></p>
+                    </div>
+                    <div class="column is-4">
+                        <h4 class="title is-6 has-text-white">Technology</h4>
+                        <p class="has-text-light">Go Backend</p>
+                        <p class="has-text-light">MongoDB Database</p>
+                        <p class="has-text-light">Google Cloud Platform</p>
+                    </div>
+                    <div class="column is-4">
+                        <h4 class="title is-6 has-text-white">Security</h4>
+                        <p class="has-text-light">PASETO Tokens</p>
+                        <p class="has-text-light">Google OAuth 2.0</p>
+                        <p class="has-text-light">Enterprise Grade</p>
+                    </div>
+                </div>
+
+                <hr style="background-color: rgba(255,255,255,0.1); margin: 2rem 0;">
+                <p class="has-text-light">
+                    © 2024 GWA Project. Built with ❤️ using Go, MongoDB, and Google Cloud Platform.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile navbar toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbarBurger = document.querySelector('.navbar-burger');
+            const navbarMenu = document.querySelector('.navbar-menu');
+
+            if (navbarBurger && navbarMenu) {
+                navbarBurger.addEventListener('click', () => {
+                    navbarBurger.classList.toggle('is-active');
+                    navbarMenu.classList.toggle('is-active');
+                });
+            }
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add scroll effect to navbar
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.modern-navbar');
+                if (window.scrollY > 50) {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.2)';
+                    navbar.style.backdropFilter = 'blur(15px)';
+                } else {
+                    navbar.style.background = 'rgba(255, 255, 255, 0.1)';
+                    navbar.style.backdropFilter = 'blur(10px)';
+                }
+            });
+
+            // Animate stats when in view
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const statNumbers = entry.target.querySelectorAll('.stat-number');
+                        statNumbers.forEach(stat => {
+                            stat.style.opacity = '1';
+                            stat.style.transform = 'translateY(0)';
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            const statsSection = document.querySelector('.stats-section');
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+
+            // Add animation classes to feature cards
+            const featureCards = document.querySelectorAll('.feature-card');
+            featureCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+            });
+
+            const featuresObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const cards = entry.target.querySelectorAll('.feature-card');
+                        cards.forEach(card => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            const featuresSection = document.querySelector('.features-section');
+            if (featuresSection) {
+                featuresObserver.observe(featuresSection);
+            }
+        });
+    </script>
+</body>
+</html>

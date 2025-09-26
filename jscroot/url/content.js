@@ -6,6 +6,12 @@ import { url } from "./config.js";
 export function getContentURL(){
     let hashlink=getHash();
     switch (hashlink) {
+        case "":
+        case "home":
+            return url.template+"home.html";
+        case "auth":
+        case "login":
+            return url.template+"auth.html";
         case "dashboard":
             return url.template.content+"dashboard.html";
         case "profile/accounts":
@@ -28,6 +34,12 @@ export function getContentURL(){
 export function getURLContentJS(){
     let hashlink=getHash();
     switch (hashlink) {
+        case "":
+        case "home":
+            return url.view+"home.js";
+        case "auth":
+        case "login":
+            return url.view+"auth.js";
         case "dashboard":
             return url.view.content+"dashboard.js";
         case "profile/accounts":
