@@ -286,7 +286,7 @@
                 if (result.success) {
                     showNotification('Login successful! Redirecting...', 'is-success');
                     setTimeout(() => {
-                        window.location.href = './dashboard.html';
+                        window.location.href = './admin.html';
                     }, 1000);
                 } else {
                     showNotification(result.error);
@@ -315,7 +315,7 @@
                 if (result.success) {
                     showNotification('Account created successfully! Redirecting...', 'is-success');
                     setTimeout(() => {
-                        window.location.href = './dashboard.html';
+                        window.location.href = './admin.html';
                     }, 1000);
                 } else {
                     showNotification(result.error);
@@ -338,7 +338,7 @@
                 if (result.success) {
                     showNotification('Google login successful! Redirecting...', 'is-success');
                     setTimeout(() => {
-                        window.location.href = './dashboard.html';
+                        window.location.href = './admin.html';
                     }, 1000);
                 } else {
                     showNotification(result.error);
@@ -406,7 +406,7 @@
 
         // Check if already logged in
         if (authManager.isLoggedIn()) {
-            window.location.href = './';
+            window.location.href = './admin.html';
         } else {
             loadGoogleConfig();
         }
