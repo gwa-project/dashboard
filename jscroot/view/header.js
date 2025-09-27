@@ -20,7 +20,7 @@ export function main() {
     } else {
         // No user data, redirect to login
         console.warn('No user data found, redirecting to login');
-        window.location.href = './login.html';
+        window.location.hash = '#auth';
     }
 
     // Setup navbar burger toggle for mobile

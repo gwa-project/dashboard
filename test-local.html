@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GWA Project - Local Test</title>
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+    <style>
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .btn-primary {
+            background: linear-gradient(45deg, #ff6b6b, #ff8787);
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
+            color: white !important;
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar hero-gradient" role="navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item has-text-white">
+                    <i class="fa fa-shield mr-2"></i>
+                    <strong>GWA Project</strong>
+                </a>
+                <a role="button" class="navbar-burger has-text-white" data-target="navMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </a>
+            </div>
+            <div id="navMenu" class="navbar-menu">
+                <div class="navbar-end">
+                    <a class="navbar-item has-text-white" href="#home">Home</a>
+                    <a class="navbar-item has-text-white" href="#features">Features</a>
+                    <div class="navbar-item">
+                        <a class="button is-light" onclick="showLogin()">
+                            <span class="icon"><i class="fa fa-sign-in"></i></span>
+                            <span>Login</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero hero-gradient is-large">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="columns is-vcentered">
+                    <div class="column is-6">
+                        <h1 class="title is-2 has-text-white">
+                            GWA Project
+                        </h1>
+                        <p class="subtitle is-4 has-text-white">
+                            Modern authentication system dengan Google SSO integration
+                        </p>
+                        <div class="buttons is-centered">
+                            <a class="btn-primary" onclick="showLogin()">
+                                <span class="icon mr-2"><i class="fa fa-rocket"></i></span>
+                                Get Started Now
+                            </a>
+                            <a class="button is-large is-outlined has-text-white" href="#features">
+                                <span class="icon mr-2"><i class="fa fa-play"></i></span>
+                                Learn More
+                            </a>
+                        </div>
+                    </div>
+                    <div class="column is-6">
+                        <div class="box">
+                            <div class="has-text-centered">
+                                <i class="fa fa-lock fa-4x has-text-primary mb-4"></i>
+                                <h3 class="title is-4">Enterprise Security</h3>
+                                <p>Built with modern security standards and best practices</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="container">
+            <div class="has-text-centered mb-6">
+                <h2 class="title is-2">Powerful Features</h2>
+                <p class="subtitle">Everything you need for secure authentication</p>
+            </div>
+
+            <div class="columns is-multiline">
+                <!-- Google SSO -->
+                <div class="column is-4">
+                    <div class="box feature-card">
+                        <div class="has-text-centered">
+                            <span class="icon is-large has-text-danger">
+                                <i class="fab fa-google fa-2x"></i>
+                            </span>
+                            <h4 class="title is-4">Google SSO</h4>
+                            <p>Sign in seamlessly with your Google account</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PASETO Security -->
+                <div class="column is-4">
+                    <div class="box feature-card">
+                        <div class="has-text-centered">
+                            <span class="icon is-large has-text-info">
+                                <i class="fa fa-shield fa-2x"></i>
+                            </span>
+                            <h4 class="title is-4">PASETO Tokens</h4>
+                            <p>Advanced security with PASETO token authentication</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cloud Infrastructure -->
+                <div class="column is-4">
+                    <div class="box feature-card">
+                        <div class="has-text-centered">
+                            <span class="icon is-large has-text-success">
+                                <i class="fa fa-cloud fa-2x"></i>
+                            </span>
+                            <h4 class="title is-4">Cloud Ready</h4>
+                            <p>Deployed on Google Cloud Platform infrastructure</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="section hero-gradient">
+        <div class="container">
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <h2 class="title is-1 has-text-white">99.9%</h2>
+                    <p class="subtitle has-text-white">Uptime</p>
+                </div>
+                <div class="column has-text-centered">
+                    <h2 class="title is-1 has-text-white">10K+</h2>
+                    <p class="subtitle has-text-white">Users</p>
+                </div>
+                <div class="column has-text-centered">
+                    <h2 class="title is-1 has-text-white">256-bit</h2>
+                    <p class="subtitle has-text-white">Encryption</p>
+                </div>
+                <div class="column has-text-centered">
+                    <h2 class="title is-1 has-text-white">24/7</h2>
+                    <p class="subtitle has-text-white">Support</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="has-text-centered">
+                <p><strong>GWA Project</strong> - Modern Authentication System</p>
+                <p>Built with ❤️ using Go, MongoDB, and Google Cloud Platform</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Login Info -->
+    <div class="modal" id="loginModal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">How to Access Login</p>
+                <button class="delete" onclick="hideLogin()"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="content">
+                    <h4>To access the full application:</h4>
+                    <ol>
+                        <li><strong>Option 1:</strong> Run a local HTTP server:
+                            <pre><code>cd dashboard
+python -m http.server 8080
+# Then open: http://localhost:8080</code></pre>
+                        </li>
+                        <li><strong>Option 2:</strong> Deploy to web server</li>
+                        <li><strong>Option 3:</strong> Use Live Server extension in VS Code</li>
+                    </ol>
+                    <div class="notification is-warning">
+                        <strong>Note:</strong> ES6 modules require HTTP server due to CORS policy.
+                        Direct file:// access won't work with the full jscroot system.
+                    </div>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button is-primary" onclick="startServer()">Start Local Server</button>
+                <button class="button" onclick="hideLogin()">Close</button>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Mobile navbar toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const burger = document.querySelector('.navbar-burger');
+            const nav = document.querySelector('#navMenu');
+
+            if (burger && nav) {
+                burger.addEventListener('click', () => {
+                    burger.classList.toggle('is-active');
+                    nav.classList.toggle('is-active');
+                });
+            }
+        });
+
+        function showLogin() {
+            document.getElementById('loginModal').classList.add('is-active');
+        }
+
+        function hideLogin() {
+            document.getElementById('loginModal').classList.remove('is-active');
+        }
+
+        function startServer() {
+            Swal.fire({
+                title: 'Starting Server...',
+                html: `
+                    <div class="content">
+                        <p>Run this command in your terminal:</p>
+                        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 5px;">cd dashboard
+python -m http.server 8080</pre>
+                        <p>Then open: <a href="http://localhost:8080" target="_blank">http://localhost:8080</a></p>
+                    </div>
+                `,
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Open localhost:8080',
+                cancelButtonText: 'Close'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open('http://localhost:8080', '_blank');
+                }
+            });
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

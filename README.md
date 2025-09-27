@@ -52,15 +52,27 @@ export const backend = {
 ### 3. Deployment
 
 #### Development (Local)
-```bash
-# Serve files dengan Python
-python -m http.server 8080
 
-# Atau dengan Node.js http-server
+**⚠️ IMPORTANT: ES6 Modules require HTTP server due to CORS policy!**
+
+```bash
+# Option 1: Python HTTP Server (Recommended)
+cd dashboard
+python -m http.server 8080
+# Then open: http://localhost:8080
+
+# Option 2: Node.js http-server
+cd dashboard
 npx http-server -p 8080
 
-# Buka browser ke http://localhost:8080/dashboard/
+# Option 3: VS Code Live Server Extension
+# Right-click index.html → "Open with Live Server"
+
+# Option 4: For quick local preview (limited functionality)
+# Open test-local.html directly in browser
 ```
+
+**Cannot open index.html directly with file:// - it will show 404 errors!**
 
 #### Production (GitHub Pages)
 1. Push dashboard ke GitHub repository

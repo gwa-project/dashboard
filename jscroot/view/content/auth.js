@@ -1,5 +1,5 @@
 // Authentication utilities
-import { backend } from "../url/config.js";
+import { backend } from "../../url/config.js";
 
 export class AuthManager {
     constructor() {

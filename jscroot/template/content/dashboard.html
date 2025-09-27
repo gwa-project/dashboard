@@ -390,7 +390,7 @@
 
         // Check authentication
         if (!authManager.isLoggedIn()) {
-            window.location.href = '../login.html';
+            window.location.hash = '#auth';
         }
 
         // Load user data
@@ -453,11 +453,11 @@
         window.handleLogout = async function() {
             try {
                 await authManager.serverLogout();
-                window.location.href = '../login.html';
+                window.location.hash = '#auth';
             } catch (error) {
                 console.error('Logout error:', error);
                 authManager.logout();
-                window.location.href = '../login.html';
+                window.location.hash = '#auth';
             }
         };
 
