@@ -9,9 +9,13 @@ import { url,id } from "./url/config.js";
 import { getContentURL } from "./url/content.js";
 import {runAfterHeader,runAfterContent,runAfterHashChange} from "./controller/main.js";
 
-//check cookie login
-if (getCookie("login")===""){
-    redirect("/signin");
+//check cookie login - only redirect if not on public pages
+const currentHash = window.location.hash || "";
+const publicPages = ["", "home", "auth", "login"];
+const isPublicPage = publicPages.includes(currentHash.replace("#", ""));
+
+if (getCookie("login")==="" && !isPublicPage){
+    window.location.hash = "#home";
 }
 
 //adding CSS
