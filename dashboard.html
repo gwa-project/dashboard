@@ -18,7 +18,6 @@
         <div class="container">
             <div class="navbar-brand">
                 <a class="navbar-item">
-                    <i class="fa fa-shield" style="color: #667eea; margin-right: 8px;"></i>
                     <strong>GWA Project</strong>
                 </a>
 
@@ -28,25 +27,25 @@
                     <span></span>
                 </div>
             </div>
-            <div class="navbar-menu" id="navMenu">
-                <div class="navbar-end">
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                            <img id="userAvatar" class="user-avatar" src="https://via.placeholder.com/32x32?text=U" alt="User">
-                            <span id="userName">Loading...</span>
+            <div class="navbar-end">
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        <span id="userName">Account</span>
+                    </a>
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item" onclick="navigateTo('dashboard')">
+                            Dashboard
                         </a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item" onclick="navigateTo('profile')">
-                                <i class="fa fa-user"></i>&nbsp; Profile
-                            </a>
-                            <a class="navbar-item" onclick="navigateTo('settings')">
-                                <i class="fa fa-cog"></i>&nbsp; Settings
-                            </a>
-                            <hr class="navbar-divider">
-                            <a class="navbar-item" onclick="logout()">
-                                <i class="fa fa-sign-out"></i>&nbsp; Logout
-                            </a>
-                        </div>
+                        <a class="navbar-item" onclick="navigateTo('profile')">
+                            Profile
+                        </a>
+                        <a class="navbar-item" onclick="navigateTo('settings')">
+                            Settings
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" onclick="logout()">
+                            Logout
+                        </a>
                     </div>
                 </div>
             </div>
@@ -57,41 +56,23 @@
         <aside class="column is-2 aside hero is-fullheight">
             <div>
                 <div class="compose has-text-centered">
-                    <a class="button is-danger is-block is-bold" onclick="navigateTo('new-project')">
+                    <a class="button is-danger is-block is-bold">
                         <span class="compose">New Project</span>
                     </a>
                 </div>
                 <div class="main">
-                    <a href="#" class="item active" onclick="navigateTo('dashboard')">
-                        <span class="icon"><i class="fa fa-dashboard"></i></span>
-                        <span class="name">Dashboard</span>
-                    </a>
-                    <a href="#" class="item" onclick="navigateTo('projects')">
-                        <span class="icon"><i class="fa fa-folder"></i></span>
-                        <span class="name">Projects</span>
-                    </a>
-                    <a href="#" class="item" onclick="navigateTo('users')">
-                        <span class="icon"><i class="fa fa-users"></i></span>
-                        <span class="name">Users</span>
-                    </a>
-                    <a href="#" class="item" onclick="navigateTo('analytics')">
-                        <span class="icon"><i class="fa fa-bar-chart"></i></span>
-                        <span class="name">Analytics</span>
-                    </a>
-                    <a href="#" class="item" onclick="navigateTo('settings')">
-                        <span class="icon"><i class="fa fa-cog"></i></span>
-                        <span class="name">Settings</span>
-                    </a>
+                    <a href="#" class="item active"><span class="icon"><i class="fa fa-dashboard"></i></span><span class="name">Dashboard</span></a>
+                    <a href="#" class="item"><span class="icon"><i class="fa fa-folder"></i></span><span class="name">Projects</span></a>
+                    <a href="#" class="item"><span class="icon"><i class="fa fa-users"></i></span><span class="name">Users</span></a>
+                    <a href="#" class="item"><span class="icon"><i class="fa fa-bar-chart"></i></span><span class="name">Analytics</span></a>
                 </div>
             </div>
         </aside>
-
-        <div class="column is-10 content-area">
-            <!-- Action Buttons -->
+        <div class="column is-4 messages hero is-fullheight" id="message-feed">
             <div class="action-buttons">
                 <div class="control is-grouped">
+                    <a class="button is-small"><i class="fa fa-chevron-down"></i></a>
                     <a class="button is-small" onclick="refreshData()"><i class="fa fa-refresh"></i></a>
-                    <a class="button is-small" onclick="exportData()"><i class="fa fa-download"></i></a>
                 </div>
                 <div class="control is-grouped">
                     <a class="button is-small" onclick="navigateTo('projects')"><i class="fa fa-folder"></i></a>
@@ -102,74 +83,122 @@
                     <a class="button is-small" onclick="navigateTo('analytics')"><i class="fa fa-bar-chart"></i></a>
                     <a class="button is-small" onclick="navigateTo('help')"><i class="fa fa-question-circle"></i></a>
                 </div>
+                <div class="control is-grouped pg">
+                    <div class="title">Recent Activity</div>
+                </div>
             </div>
 
-            <!-- Dashboard Overview -->
-            <div id="dashboard-content">
-                <div class="container">
-                    <h1 class="title">Welcome to Dashboard</h1>
-                    <p class="subtitle">Overview of your GWA Project</p>
-
-                        <!-- Stats Cards -->
-                        <div class="columns">
-                            <div class="column is-3">
-                                <div class="stats-card">
-                                    <div class="stats-number" id="totalProjects">0</div>
-                                    <div class="stats-label">Total Projects</div>
-                                </div>
-                            </div>
-                            <div class="column is-3">
-                                <div class="stats-card">
-                                    <div class="stats-number" id="activeUsers">0</div>
-                                    <div class="stats-label">Active Users</div>
-                                </div>
-                            </div>
-                            <div class="column is-3">
-                                <div class="stats-card">
-                                    <div class="stats-number" id="completedTasks">0</div>
-                                    <div class="stats-label">Completed Tasks</div>
-                                </div>
-                            </div>
-                            <div class="column is-3">
-                                <div class="stats-card">
-                                    <div class="stats-number" id="systemHealth">98%</div>
-                                    <div class="stats-label">System Health</div>
-                                </div>
-                            </div>
+            <div class="inbox-messages" id="inbox-messages">
+                <div class="card" onclick="showDashboard()">
+                    <div class="card-content">
+                        <div class="msg-header">
+                            <span class="msg-from"><small>System</small></span>
+                            <span class="msg-timestamp">Now</span>
                         </div>
-
-                        <!-- Recent Activity -->
-                        <div class="box">
-                            <h2 class="title is-4">Recent Activity</h2>
-                            <div id="recent-activity">
-                                <div class="content">
-                                    <p><i class="fa fa-check text-success"></i> System health check completed</p>
-                                    <p><i class="fa fa-user text-info"></i> New user registered: <strong id="recentUser">Loading...</strong></p>
-                                    <p><i class="fa fa-folder text-warning"></i> Project updated: Backend API</p>
-                                    <p><i class="fa fa-shield text-primary"></i> Security scan completed successfully</p>
-                                </div>
-                            </div>
+                        <div class="msg-subject">
+                            <span class="msg-subject"><strong>Dashboard Overview</strong></span>
                         </div>
+                        <div class="msg-snippet">
+                            <p>Welcome to your GWA Project dashboard</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="msg-header">
+                            <span class="msg-from"><small>Projects</small></span>
+                            <span class="msg-timestamp">5 min ago</span>
+                        </div>
+                        <div class="msg-subject">
+                            <span class="msg-subject"><strong>Project Status Update</strong></span>
+                        </div>
+                        <div class="msg-snippet">
+                            <p id="totalProjects">Loading projects...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="msg-header">
+                            <span class="msg-from"><small>Users</small></span>
+                            <span class="msg-timestamp">10 min ago</span>
+                        </div>
+                        <div class="msg-subject">
+                            <span class="msg-subject"><strong>User Activity</strong></span>
+                        </div>
+                        <div class="msg-snippet">
+                            <p id="activeUsers">Loading users...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="msg-header">
+                            <span class="msg-from"><small>System</small></span>
+                            <span class="msg-timestamp">15 min ago</span>
+                        </div>
+                        <div class="msg-subject">
+                            <span class="msg-subject"><strong>Health Check</strong></span>
+                        </div>
+                        <div class="msg-snippet">
+                            <p id="systemHealth">System running optimally</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-6 message hero is-fullheight" id="message-pane">
+            <div class="action-buttons">
+                <div class="control is-grouped">
+                    <a class="button is-small" onclick="refreshData()"><i class="fa fa-refresh"></i></a>
+                    <a class="button is-small" onclick="exportData()"><i class="fa fa-download"></i></a>
+                </div>
+                <div class="control is-grouped">
+                    <a class="button is-small" onclick="navigateTo('new-project')"><i class="fa fa-plus"></i></a>
+                    <a class="button is-small" onclick="navigateTo('settings')"><i class="fa fa-cog"></i></a>
+                </div>
+            </div>
+            <div class="box message-preview">
+                <div class="top">
+                    <div class="avatar">
+                        <img id="userAvatar" src="https://via.placeholder.com/40x40?text=User">
+                    </div>
+                    <div class="address">
+                        <div class="name" id="displayUserName">Dashboard</div>
+                        <div class="email">GWA Project Overview</div>
+                    </div>
+                    <hr>
+                    <div class="content" id="dashboard-content">
+                        <h2 class="title is-4">Welcome to Dashboard</h2>
+                        <p class="subtitle">Overview of your GWA Project</p>
 
-                        <!-- Quick Actions -->
-                        <div class="box">
-                            <h2 class="title is-4">Quick Actions</h2>
+                        <div class="content">
+                            <h3>Quick Stats</h3>
+                            <ul>
+                                <li><strong>Total Projects:</strong> <span id="completedTasks">Loading...</span></li>
+                                <li><strong>Active Users:</strong> <span id="recentUser">Loading...</span></li>
+                                <li><strong>System Health:</strong> 98%</li>
+                            </ul>
+
+                            <h3>Recent Activity</h3>
+                            <p><i class="fa fa-check"></i> System health check completed</p>
+                            <p><i class="fa fa-user"></i> New user registered successfully</p>
+                            <p><i class="fa fa-folder"></i> Project updated: Backend API</p>
+                            <p><i class="fa fa-shield"></i> Security scan completed successfully</p>
+
+                            <h3>Quick Actions</h3>
                             <div class="buttons">
-                                <button class="button is-primary" onclick="navigateTo('new-project')">
+                                <button class="button is-primary is-small" onclick="navigateTo('new-project')">
                                     <span class="icon"><i class="fa fa-plus"></i></span>
                                     <span>Create Project</span>
                                 </button>
-                                <button class="button is-info" onclick="navigateTo('users')">
+                                <button class="button is-info is-small" onclick="navigateTo('users')">
                                     <span class="icon"><i class="fa fa-users"></i></span>
                                     <span>Manage Users</span>
                                 </button>
-                                <button class="button is-success" onclick="navigateTo('analytics')">
+                                <button class="button is-success is-small" onclick="navigateTo('analytics')">
                                     <span class="icon"><i class="fa fa-bar-chart"></i></span>
                                     <span>View Analytics</span>
-                                </button>
-                                <button class="button is-warning" onclick="refreshData()">
-                                    <span class="icon"><i class="fa fa-refresh"></i></span>
-                                    <span>Refresh Data</span>
                                 </button>
                             </div>
                         </div>
@@ -219,13 +248,13 @@
 
                 // Update user info (placeholder for now)
                 document.getElementById('userName').textContent = 'John Doe';
-                document.getElementById('userAvatar').src = 'https://via.placeholder.com/32x32?text=JD';
+                document.getElementById('displayUserName').textContent = 'John Doe';
+                document.getElementById('userAvatar').src = 'https://via.placeholder.com/40x40?text=JD';
 
                 // Update stats with sample data
-                animateCounter('totalProjects', 12);
-                animateCounter('activeUsers', 34);
-                animateCounter('completedTasks', 156);
-
+                document.getElementById('totalProjects').textContent = '12 projects active';
+                document.getElementById('activeUsers').textContent = '34 users online';
+                document.getElementById('completedTasks').textContent = '156';
                 document.getElementById('recentUser').textContent = 'John Doe';
 
                 console.log('Dashboard data loaded successfully');
@@ -234,21 +263,20 @@
             }
         }
 
-        // Animate counters
-        function animateCounter(elementId, target) {
-            const element = document.getElementById(elementId);
-            let current = 0;
-            const increment = target / 30;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    element.textContent = target;
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(current);
-                }
-            }, 50);
+        // Show dashboard in main pane
+        function showDashboard() {
+            // Remove active class from all cards
+            document.querySelectorAll('.card').forEach(card => {
+                card.classList.remove('active');
+            });
+
+            // Add active class to clicked card
+            event.target.closest('.card').classList.add('active');
+
+            // Show message pane if hidden
+            document.getElementById('message-pane').classList.remove('is-hidden');
         }
+
 
         // Navigation functions
         function navigateTo(section) {
