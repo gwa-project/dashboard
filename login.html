@@ -250,14 +250,16 @@
                     if (data.token) {
                         localStorage.setItem('gwa_access_token', data.token);
                         document.cookie = `login=${data.token}; path=/; max-age=86400`; // 24 hours
+                        console.log('Token saved:', data.token.substring(0, 20) + '...');
                     }
 
                     showNotification('Login successful! Redirecting...', 'success');
 
-                    // Redirect to dashboard
+                    // Redirect to dashboard with a longer delay to ensure token is saved
                     setTimeout(() => {
+                        console.log('Redirecting to dashboard...');
                         window.location.href = 'dashboard.html';
-                    }, 1000);
+                    }, 1500);
                 } else {
                     showNotification(data.message || 'Login failed. Please check your credentials.', 'danger');
                 }
@@ -425,8 +427,35 @@
             document.getElementById('notification').classList.add('is-hidden');
         }
 
+        // Check if already authenticated
+        function checkIfAlreadyLoggedIn() {
+            const token = localStorage.getItem('gwa_access_token') || getCookie('login');
+            if (token) {
+                console.log('User already logged in, redirecting to dashboard...');
+                showNotification('Already logged in! Redirecting to dashboard...', 'info');
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+                return true;
+            }
+            return false;
+        }
+
+        // Get cookie helper
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return '';
+        }
+
         // Show info on page load
         window.addEventListener('load', () => {
+            // Check if already logged in first
+            if (checkIfAlreadyLoggedIn()) {
+                return;
+            }
+
             setTimeout(() => {
                 showNotification('This is a standalone login page. For full functionality, use the main application.', 'info');
             }, 1000);

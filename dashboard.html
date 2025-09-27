@@ -223,8 +223,14 @@
         // Check authentication
         function checkAuth() {
             const token = localStorage.getItem('gwa_access_token') || getCookie('login');
+            console.log('Checking auth, token found:', !!token);
+
             if (!token) {
-                window.location.href = 'login.html';
+                console.log('No token found, redirecting to login');
+                // Add a small delay to prevent redirect loops
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 100);
                 return false;
             }
             return true;
@@ -244,7 +250,10 @@
                 const token = localStorage.getItem('gwa_access_token') || getCookie('login');
 
                 if (!token) {
-                    window.location.href = 'login.html';
+                    console.log('No token in loadUserData, redirecting to login');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 100);
                     return;
                 }
 
@@ -298,8 +307,14 @@
                 console.log('Dashboard data loaded successfully');
             } catch (error) {
                 console.error('Error loading user data:', error);
-                // Redirect to login on any major error
-                window.location.href = 'login.html';
+                // Only redirect to login if it's an auth error, not a network error
+                const token = localStorage.getItem('gwa_access_token') || getCookie('login');
+                if (!token) {
+                    console.log('Auth error, redirecting to login');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 100);
+                }
             }
         }
 
