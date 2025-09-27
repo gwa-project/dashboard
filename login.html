@@ -125,7 +125,7 @@
                 </div>
 
                 <!-- Login Form -->
-                <form id="loginForm">
+                <form id="loginForm" style="display: block;">
                     <div class="field">
                         <div class="control">
                             <input class="input is-medium is-rounded" type="email" id="email" placeholder="hello@example.com" autocomplete="username" required />
@@ -151,6 +151,35 @@
                     </div>
                 </form>
 
+                <!-- Register Form -->
+                <form id="registerForm" style="display: none;">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="text" id="regName" placeholder="Full Name" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="email" id="regEmail" placeholder="hello@example.com" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="password" id="regPassword" placeholder="Password (min 6 chars)" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="password" id="regConfirmPassword" placeholder="Confirm Password" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <button class="button is-block is-fullwidth is-primary is-medium is-rounded" type="submit" id="registerBtn">
+                            Create Account
+                        </button>
+                    </div>
+                </form>
+
                 <!-- Divider -->
                 <div class="divider">
                     <span>or</span>
@@ -170,7 +199,7 @@
 
                 <!-- Toggle Info -->
                 <div class="has-text-centered mt-4">
-                    <p>Don't have an account? <a href="#" onclick="showRegisterInfo()">Create Account</a></p>
+                    <p id="toggleText">Don't have an account? <a href="#" onclick="toggleForm()">Create Account</a></p>
                     <p class="mt-2"><a href="index.html">← Back to Home</a></p>
                 </div>
             </div>
@@ -178,8 +207,16 @@
     </section>
 
     <script>
+        // Backend configuration
+        const backend = {
+            auth: {
+                login: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/login',
+                register: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/register'
+            }
+        };
+
         // Handle login form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const email = document.getElementById('email').value;
@@ -194,26 +231,161 @@
             const loginBtn = document.getElementById('loginBtn');
             loginBtn.classList.add('is-loading');
 
-            // Simulate login process
-            setTimeout(() => {
-                loginBtn.classList.remove('is-loading');
-                showNotification('Login functionality requires backend integration', 'info');
+            try {
+                const response = await fetch(backend.auth.login, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
 
-                // For demo, redirect to main app
-                setTimeout(() => {
-                    window.location.href = 'index.html#dashboard';
-                }, 2000);
-            }, 1500);
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Save token
+                    if (data.token) {
+                        localStorage.setItem('gwa_access_token', data.token);
+                        document.cookie = `login=${data.token}; path=/; max-age=86400`; // 24 hours
+                    }
+
+                    showNotification('Login successful! Redirecting...', 'success');
+
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1000);
+                } else {
+                    showNotification(data.message || 'Login failed. Please check your credentials.', 'danger');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showNotification('Connection error. Please try again.', 'danger');
+            } finally {
+                loginBtn.classList.remove('is-loading');
+            }
         });
 
+        // Google Sign In
         function googleSignIn() {
+            showNotification('Redirecting to Google OAuth...', 'info');
+
+            // Google OAuth URL
+            const googleAuthURL = 'https://accounts.google.com/o/oauth2/auth?' +
+                'client_id=YOUR_GOOGLE_CLIENT_ID&' +
+                'redirect_uri=' + encodeURIComponent(window.location.origin + '/dashboard/auth/callback') + '&' +
+                'response_type=code&' +
+                'scope=email profile&' +
+                'state=google_login';
+
+            // For now, show info since we need proper Google OAuth setup
             Swal.fire({
                 title: 'Google Sign In',
-                text: 'Google OAuth integration requires proper configuration and backend setup.',
+                html: `
+                    <div class="content">
+                        <p>Google OAuth integration is configured but requires:</p>
+                        <ol style="text-align: left;">
+                            <li>Valid Google Client ID</li>
+                            <li>Proper redirect URI configuration</li>
+                            <li>Backend OAuth handler</li>
+                        </ol>
+                        <p><strong>Try regular login for now.</strong></p>
+                    </div>
+                `,
                 icon: 'info',
-                confirmButtonText: 'Understood',
-                footer: '<a href="index.html">Back to Home</a>'
+                confirmButtonText: 'Use Regular Login',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('email').focus();
+                }
             });
+        }
+
+        // Handle register form submission
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (!name || !email || !password || !confirmPassword) {
+                showNotification('Please fill in all fields', 'danger');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match', 'danger');
+                return;
+            }
+
+            if (password.length < 6) {
+                showNotification('Password must be at least 6 characters', 'danger');
+                return;
+            }
+
+            // Show loading
+            const registerBtn = document.getElementById('registerBtn');
+            registerBtn.classList.add('is-loading');
+
+            try {
+                const response = await fetch(backend.auth.register, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    showNotification('Registration successful! Please login with your credentials.', 'success');
+
+                    // Switch to login form
+                    setTimeout(() => {
+                        toggleForm();
+                        // Pre-fill email
+                        document.getElementById('email').value = email;
+                    }, 1500);
+                } else {
+                    showNotification(data.message || 'Registration failed. Please try again.', 'danger');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showNotification('Connection error. Please try again.', 'danger');
+            } finally {
+                registerBtn.classList.remove('is-loading');
+            }
+        });
+
+        // Toggle between login and register forms
+        function toggleForm() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const toggleText = document.getElementById('toggleText');
+
+            if (loginForm.style.display === 'none') {
+                // Switch to login
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                toggleText.innerHTML = 'Don\'t have an account? <a href="#" onclick="toggleForm()">Create Account</a>';
+            } else {
+                // Switch to register
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                toggleText.innerHTML = 'Already have an account? <a href="#" onclick="toggleForm()">Sign In</a>';
+            }
         }
 
         function showRegisterInfo() {
