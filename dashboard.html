@@ -9,63 +9,8 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
     <!-- Bulma Version 1-->
     <link rel="stylesheet" href="https://unpkg.com/bulma@1.0.2/css/bulma.min.css" />
-    <style>
-        .aside {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        .aside .item {
-            color: rgba(255, 255, 255, 0.8);
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .aside .item:hover, .aside .item.active {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-        .aside .item .icon {
-            margin-right: 0.75rem;
-            width: 20px;
-        }
-        .compose .button {
-            background: linear-gradient(45deg, #ff6b6b, #ff8787);
-            border: none;
-            font-weight: 600;
-        }
-        .compose .button:hover {
-            background: linear-gradient(45deg, #ff5252, #ff6b6b);
-            transform: translateY(-2px);
-        }
-        .stats-card {
-            background: white;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-        .stats-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #667eea;
-        }
-        .stats-label {
-            color: #6c757d;
-            font-weight: 500;
-        }
-        .navbar-dropdown .navbar-item {
-            cursor: pointer;
-        }
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-    </style>
+    <!-- Dashboard Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/dashboard.css">
 </head>
 
 <body>
@@ -142,12 +87,28 @@
         </aside>
 
         <div class="column is-10 content-area">
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <div class="control is-grouped">
+                    <a class="button is-small" onclick="refreshData()"><i class="fa fa-refresh"></i></a>
+                    <a class="button is-small" onclick="exportData()"><i class="fa fa-download"></i></a>
+                </div>
+                <div class="control is-grouped">
+                    <a class="button is-small" onclick="navigateTo('projects')"><i class="fa fa-folder"></i></a>
+                    <a class="button is-small" onclick="navigateTo('users')"><i class="fa fa-users"></i></a>
+                    <a class="button is-small" onclick="navigateTo('settings')"><i class="fa fa-cog"></i></a>
+                </div>
+                <div class="control is-grouped">
+                    <a class="button is-small" onclick="navigateTo('analytics')"><i class="fa fa-bar-chart"></i></a>
+                    <a class="button is-small" onclick="navigateTo('help')"><i class="fa fa-question-circle"></i></a>
+                </div>
+            </div>
+
             <!-- Dashboard Overview -->
             <div id="dashboard-content">
-                <div class="section">
-                    <div class="container">
-                        <h1 class="title">Welcome to Dashboard</h1>
-                        <p class="subtitle">Overview of your GWA Project</p>
+                <div class="container">
+                    <h1 class="title">Welcome to Dashboard</h1>
+                    <p class="subtitle">Overview of your GWA Project</p>
 
                         <!-- Stats Cards -->
                         <div class="columns">
@@ -334,6 +295,11 @@
                 loadUserData();
                 alert('Data refreshed successfully!');
             }, 1500);
+        }
+
+        // Export data function
+        function exportData() {
+            alert('Export functionality - To be implemented');
         }
 
         // Logout function

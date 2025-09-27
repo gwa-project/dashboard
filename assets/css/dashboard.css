@@ -1,0 +1,361 @@
+/* GWA Project Dashboard CSS */
+/* Based on Bulma Inbox Template */
+
+html, body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    height: 100%;
+    background-color: #fff;
+}
+
+/* Navbar Styling */
+.navbar.has-shadow {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand .navbar-item {
+    font-weight: 600;
+    color: #667eea !important;
+}
+
+.navbar-dropdown .navbar-item {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-dropdown .navbar-item:hover {
+    background-color: #f5f5f5;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 2px solid #e0e0e0;
+}
+
+/* Sidebar Styling */
+.aside {
+    display: block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-right: none;
+    color: white;
+}
+
+.aside .compose {
+    height: 95px;
+    margin: 0 -10px;
+    padding: 25px 30px;
+}
+
+.aside .compose .button {
+    background: linear-gradient(45deg, #ff6b6b, #ff8787);
+    border: none;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.aside .compose .button:hover {
+    background: linear-gradient(45deg, #ff5252, #ff6b6b);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.aside .compose .button .compose {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.aside .main {
+    padding: 40px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.aside .title {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.aside .main .item {
+    display: block;
+    padding: 15px 0;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin: 5px 0;
+}
+
+.aside .main .item.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    margin: 5px -50px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.aside .main .item:active, .aside .main .item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    margin: 5px -50px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.aside .main .icon {
+    font-size: 16px;
+    padding-right: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    width: 20px;
+    display: inline-block;
+}
+
+.aside .main .name {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+/* Content Area */
+.content-area {
+    display: block;
+    background-color: #fff;
+    padding: 40px 20px;
+    min-height: calc(100vh - 52px);
+}
+
+/* Dashboard Cards */
+.stats-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.stats-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.stats-label {
+    color: #6c757d;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Action Buttons */
+.action-buttons {
+    padding: 0;
+    margin-top: -20px;
+    margin-bottom: 30px;
+}
+
+.action-buttons .control.is-grouped {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+.action-buttons .control.is-grouped:last-child {
+    margin-right: 0;
+}
+
+.action-buttons .control.is-grouped .button:first-child {
+    border-radius: 5px 0 0 5px;
+}
+
+.action-buttons .control.is-grouped .button:last-child {
+    border-radius: 0 5px 5px 0;
+}
+
+.action-buttons .control.is-grouped .button {
+    margin-right: -1px;
+    border-radius: 0;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.action-buttons .control.is-grouped .button:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
+}
+
+.action-buttons .control.is-grouped .button .fa {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* Content Boxes */
+.box {
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+.box .title {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+/* Activity List */
+.content p {
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f3f4;
+    margin-bottom: 8px;
+}
+
+.content p:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.content .fa {
+    margin-right: 8px;
+    width: 16px;
+}
+
+.text-success { color: #28a745; }
+.text-info { color: #17a2b8; }
+.text-warning { color: #ffc107; }
+.text-primary { color: #667eea; }
+
+/* Quick Action Buttons */
+.buttons .button {
+    margin-right: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.buttons .button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.buttons .button .icon {
+    margin-right: 8px;
+}
+
+/* Footer */
+.footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    margin-top: 3rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .aside {
+        position: fixed;
+        left: -250px;
+        width: 250px;
+        z-index: 1000;
+        transition: left 0.3s ease;
+    }
+
+    .aside.is-active {
+        left: 0;
+    }
+
+    .content-area {
+        padding: 20px 15px;
+    }
+
+    .stats-card {
+        padding: 1.5rem;
+    }
+
+    .stats-number {
+        font-size: 2rem;
+    }
+
+    .action-buttons {
+        text-align: center;
+    }
+
+    .action-buttons .control.is-grouped {
+        display: block;
+        margin-bottom: 10px;
+    }
+}
+
+/* Loading States */
+.button.is-loading {
+    pointer-events: none;
+}
+
+.button.is-loading::after {
+    animation: spinAround 0.5s infinite linear;
+    border: 2px solid #dbdbdb;
+    border-radius: 290486px;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    content: "";
+    display: block;
+    height: 1em;
+    position: relative;
+    width: 1em;
+    position: absolute;
+    left: calc(50% - (1em / 2));
+    top: calc(50% - (1em / 2));
+    position: absolute !important;
+}
+
+@keyframes spinAround {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    html, body {
+        background-color: #1a1a1a;
+        color: #e0e0e0;
+    }
+
+    .content-area {
+        background-color: #1a1a1a;
+    }
+
+    .stats-card, .box {
+        background-color: #2d2d2d;
+        border-color: rgba(255,255,255,0.1);
+    }
+
+    .stats-label {
+        color: #a0a0a0;
+    }
+
+    .navbar.has-shadow {
+        background-color: #2d2d2d;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+}
