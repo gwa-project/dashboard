@@ -6,12 +6,11 @@ import { url } from "./config.js";
 export function getContentURL(){
     let hashlink=getHash();
     switch (hashlink) {
-        case "":
         case "home":
-            return url.template+"home.html";
+            return url.template.content+"home.html";
         case "auth":
         case "login":
-            return url.template+"auth.html";
+            return url.template.content+"auth.html";
         case "dashboard":
             return url.template.content+"dashboard.html";
         case "profile/accounts":
@@ -27,19 +26,18 @@ export function getContentURL(){
         case "docs/guide":
             return url.template.content+"docs/guide.html";
         default:
-            return url.template.content+"dashboard.html";
+            return url.template.content+"home.html";
     }
 }
 
 export function getURLContentJS(){
     let hashlink=getHash();
     switch (hashlink) {
-        case "":
         case "home":
-            return url.view+"home.js";
+            return url.view.content+"home.js";
         case "auth":
         case "login":
-            return url.view+"auth.js";
+            return url.view.content+"auth.js";
         case "dashboard":
             return url.view.content+"dashboard.js";
         case "profile/accounts":
@@ -55,6 +53,6 @@ export function getURLContentJS(){
         case "docs/guide":
             return url.view.content+"docs/guide.js";
         default:
-            return url.view.content+"dashboard.js";
+            return url.view.content+"home.js";
     }
 }
