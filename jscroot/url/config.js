@@ -7,19 +7,21 @@ import {folderPath} from "https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js
 export const backend = {
     user: {
         data: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/data/user',
-        all: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/users',
-        create: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/data/user',
-        update: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/data/user',
-        delete: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/data/user',
+        all: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/admin/users',
+        profile: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/profile',
+        create: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/admin/users',
+        update: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/profile/update',
+        delete: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/admin/users',
     },
     auth: {
         login: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/login',
         register: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/register',
+        google: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/google',
         refresh: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/refresh',
-        logout: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/logout',
+        logout: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/logout',
+        changePassword: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/change-password',
     },
     config: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/config',
-    health: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/health',
     home: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/',
 };
 

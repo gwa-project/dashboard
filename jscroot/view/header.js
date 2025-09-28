@@ -5,32 +5,39 @@ export function main() {
     const user = window.authManager ? window.authManager.getUser() : null;
 
     if (user) {
-        // Update user avatar and name in header
+        // Update user avatar, name, and email in header
         const userAvatar = document.getElementById('userAvatar');
         const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
 
         if (userAvatar) {
-            userAvatar.src = user.picture || 'https://via.placeholder.com/32x32?text=U';
+            userAvatar.src = user.picture || 'https://via.placeholder.com/35x35?text=U';
             userAvatar.alt = user.name || 'User';
         }
 
         if (userName) {
             userName.textContent = user.name || 'User';
         }
+
+        if (userEmail) {
+            userEmail.textContent = user.email || 'user@example.com';
+        }
     } else {
-        // No user data, redirect to login
-        console.warn('No user data found, redirecting to login');
-        window.location.hash = '#auth';
+        // No user data, show default
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+
+        if (userName) userName.textContent = 'Guest';
+        if (userEmail) userEmail.textContent = 'Not logged in';
     }
 
-    // Setup navbar burger toggle for mobile
-    const burger = document.querySelector('.navbar-burger');
-    const nav = document.querySelector('#navbarMain');
+    // Setup mobile toggle
+    const headerToggle = document.getElementById('header-toggle');
+    const nav = document.querySelector('.nav');
 
-    if (burger && nav) {
-        burger.addEventListener('click', () => {
-            burger.classList.toggle('is-active');
-            nav.classList.toggle('is-active');
+    if (headerToggle && nav) {
+        headerToggle.addEventListener('click', () => {
+            nav.classList.toggle('show-menu');
         });
     }
 

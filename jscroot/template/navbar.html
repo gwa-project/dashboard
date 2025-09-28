@@ -1,47 +1,79 @@
-<div class="column is-3">
-    <aside class="menu is-hidden-mobile">
-        <p class="menu-label">Profile</p>
-        <ul class="menu-list">
-            <li>
-                <a href="#dashboard" class="is-active">
-                    <span class="icon is-small"><i class="fa fa-dashboard"></i></span>
-                    Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="#" class="navbar-item has-dropdown">
-                    <span class="icon is-small"><i class="fa fa-user"></i></span>
-                    Profile
-                </a>
-                <ul>
-                    <li><a href="#profile/accounts">Accounts</a></li>
-                    <li><a href="#profile/mail">Linked Device</a></li>
-                </ul>
-            </li>
-        </ul>
+<nav class="nav__container">
+  <div>
+    <a href="#" class="nav__link nav__logo">
+      <i class="bx bx-shield nav__icon"></i>
+      <span class="nav__logo-name">GWA Project</span>
+    </a>
 
-        <p class="menu-label">Menu</p>
-        <ul class="menu-list">
-            <li>
-                <a href="#" class="navbar-item has-dropdown">
-                    <span class="icon is-small"><i class="fa fa-book"></i></span>
-                    Documentation
-                </a>
-                <ul>
-                    <li><a href="https://gocroot.if.co.id/" target="_blank">GoCroot Docs</a></li>
-                    <li><a href="#docs/api">API Reference</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="#" class="navbar-item has-dropdown">
-                    <span class="icon is-small"><i class="fa fa-cog"></i></span>
-                    Settings
-                </a>
-                <ul>
-                    <li><a href="#settings/config">Configuration</a></li>
-                    <li><a href="#settings/security">Security</a></li>
-                </ul>
-            </li>
-        </ul>
-    </aside>
-</div>
+    <div class="nav__list">
+      <div class="nav__items">
+        <h3 class="nav__subtitle">Dashboard</h3>
+
+        <a href="#home" class="nav__link active">
+          <i class="bx bx-home nav__icon"></i>
+          <span class="nav__name">Home</span>
+        </a>
+
+        <a href="#dashboard" class="nav__link">
+          <i class="bx bx-dashboard nav__icon"></i>
+          <span class="nav__name">Dashboard</span>
+        </a>
+
+        <div class="nav__dropdown">
+          <a href="#" class="nav__link">
+            <i class="bx bx-user nav__icon"></i>
+            <span class="nav__name">Profile</span>
+            <i class="bx bx-chevron-down nav__icon nav__dropdown-icon"></i>
+          </a>
+
+          <div class="nav__dropdown-collapse">
+            <div class="nav__dropdown-content">
+              <a href="#profile/accounts" class="nav__dropdown-item">Accounts</a>
+              <a href="#profile/mail" class="nav__dropdown-item">Linked Device</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav__items">
+        <h3 class="nav__subtitle">Configuration</h3>
+
+        <div class="nav__dropdown">
+          <a href="#" class="nav__link">
+            <i class="bx bx-cog nav__icon"></i>
+            <span class="nav__name">Settings</span>
+            <i class="bx bx-chevron-down nav__icon nav__dropdown-icon"></i>
+          </a>
+
+          <div class="nav__dropdown-collapse">
+            <div class="nav__dropdown-content">
+              <a href="#settings/config" class="nav__dropdown-item">Configuration</a>
+              <a href="#settings/security" class="nav__dropdown-item">Security</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav__dropdown">
+          <a href="#" class="nav__link">
+            <i class="bx bx-book nav__icon"></i>
+            <span class="nav__name">Documentation</span>
+            <i class="bx bx-chevron-down nav__icon nav__dropdown-icon"></i>
+          </a>
+
+          <div class="nav__dropdown-collapse">
+            <div class="nav__dropdown-content">
+              <a href="https://gocroot.if.co.id/" target="_blank" class="nav__dropdown-item">GoCroot Docs</a>
+              <a href="#docs/api" class="nav__dropdown-item">API Reference</a>
+              <a href="#docs/guide" class="nav__dropdown-item">User Guide</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav__link nav__logout">
+    <i class="bx bx-log-out nav__icon"></i>
+    <span class="nav__name">Log Out</span>
+  </div>
+</nav>

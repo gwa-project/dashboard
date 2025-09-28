@@ -67,9 +67,6 @@ npx http-server -p 8080
 
 # Option 3: VS Code Live Server Extension
 # Right-click index.html → "Open with Live Server"
-
-# Option 4: For quick local preview (limited functionality)
-# Open test-local.html directly in browser
 ```
 
 **Cannot open index.html directly with file:// - it will show 404 errors!**

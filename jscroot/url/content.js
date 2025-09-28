@@ -12,7 +12,7 @@ export function getContentURL(){
         case "login":
             return url.template.content+"auth.html";
         case "dashboard":
-            return url.template.content+"dashboard.html";
+            return url.template.content+"home.html";
         case "profile/accounts":
             return url.template.content+"profile/accounts.html";
         case "profile/mail":
@@ -39,7 +39,7 @@ export function getURLContentJS(){
         case "login":
             return url.view.content+"auth.js";
         case "dashboard":
-            return url.view.content+"dashboard.js";
+            return url.view.content+"home.js";
         case "profile/accounts":
             return url.view.content+"profile/accounts.js";
         case "profile/mail":

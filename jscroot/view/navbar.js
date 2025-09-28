@@ -1,39 +1,43 @@
 export function main() {
     // Handle menu click events
     document.addEventListener('click', function(e) {
-        // Handle navbar burger menu for mobile
-        if (e.target.classList.contains('navbar-burger') || e.target.closest('.navbar-burger')) {
-            const burger = e.target.closest('.navbar-burger') || e.target;
-            const target = document.getElementById(burger.dataset.target || 'navbarMain');
-
-            if (target) {
-                burger.classList.toggle('is-active');
-                target.classList.toggle('is-active');
-            }
-        }
-
-        // Handle menu item clicks
-        if (e.target.tagName === 'A' && e.target.hash) {
-            // Remove active class from all menu items
-            document.querySelectorAll('.menu-list a').forEach(link => {
-                link.classList.remove('is-active');
+        // Handle nav link clicks
+        if (e.target.closest('.nav__link') && e.target.closest('.nav__link').hash) {
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav__link').forEach(link => {
+                link.classList.remove('active');
             });
 
             // Add active class to clicked item
-            e.target.classList.add('is-active');
+            e.target.closest('.nav__link').classList.add('active');
+        }
+
+        // Handle logout click
+        if (e.target.closest('.nav__logout')) {
+            e.preventDefault();
+            if (window.authManager) {
+                window.authManager.logout();
+            } else {
+                // Fallback logout
+                document.cookie.split(";").forEach(function(c) {
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                });
+                window.location.hash = '#home';
+                window.location.reload();
+            }
         }
     });
 
     // Set initial active menu item based on hash
     const currentHash = window.location.hash || '#home';
-    const activeLink = document.querySelector(`a[href="${currentHash}"]`);
+    const activeLink = document.querySelector(`.nav__link[href="${currentHash}"]`);
     if (activeLink) {
         // Remove active from all
-        document.querySelectorAll('.menu-list a').forEach(link => {
-            link.classList.remove('is-active');
+        document.querySelectorAll('.nav__link').forEach(link => {
+            link.classList.remove('active');
         });
         // Set current as active
-        activeLink.classList.add('is-active');
+        activeLink.classList.add('active');
     }
 
     console.log("Navbar view loaded");
