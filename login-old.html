@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWA Project - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/bulma@1.0.4/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .login {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            padding: 3rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .input {
+            border: 2px solid #e8e8e8;
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .button.is-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .button.is-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        .google-btn {
+            background: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 1rem;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .google-btn:hover {
+            background: #357ae8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(66, 133, 244, 0.3);
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e8e8e8;
+        }
+        .divider span {
+            padding: 0 1rem;
+            color: #8a8a8a;
+            font-size: 0.875rem;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .field {
+            margin-bottom: 1.5rem;
+        }
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">
+        <i class="fas fa-arrow-left mr-2"></i>
+        Back to Home
+    </a>
+
+    <section class="hero is-fullheight">
+        <div class="hero-body has-text-centered">
+            <div class="login">
+                <div class="logo-container">
+                    <svg width="120" viewBox="0 0 134 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.45 6.64999V2.39999H2.05V31.6H15.45V27.35C12.705 27.35 10.0724 26.2595 8.13144 24.3185C6.19044 22.3775 5.1 19.745 5.1 17C5.1 14.255 6.19044 11.6224 8.13144 9.68144C10.0724 7.74044 12.705 6.64999 15.45 6.64999V6.64999Z" fill="#667eea"></path>
+                        <path d="M15.45 6.64999V27.35C18.195 27.35 20.8276 26.2595 22.7686 24.3185C24.7096 22.3775 25.8 19.745 25.8 17C25.8 14.255 24.7096 11.6224 22.7686 9.68144C20.8276 7.74044 18.195 6.64999 15.45 6.64999V6.64999Z" fill="#667eea"></path>
+                    </svg>
+                    <h1 class="title is-4" style="margin-top: 1rem;">Welcome Back</h1>
+                    <p class="subtitle is-6 has-text-grey">Sign in to your account</p>
+                </div>
+
+                <!-- Notification area -->
+                <div id="notification" class="notification is-hidden">
+                    <button class="delete" onclick="hideNotification()"></button>
+                    <span id="notification-message"></span>
+                </div>
+
+                <!-- Login Form -->
+                <form id="loginForm" style="display: block;">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="email" id="email" placeholder="hello@example.com" autocomplete="username" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="password" id="password" placeholder="**********" autocomplete="current-password" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <label class="checkbox">
+                                <input type="checkbox" id="rememberMe">
+                                Remember me
+                            </label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <button class="button is-block is-fullwidth is-primary is-medium is-rounded" type="submit" id="loginBtn">
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" style="display: none;">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="text" id="regName" placeholder="Full Name" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="email" id="regEmail" placeholder="hello@example.com" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="password" id="regPassword" placeholder="Password (min 6 chars)" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded" type="password" id="regConfirmPassword" placeholder="Confirm Password" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <button class="button is-block is-fullwidth is-primary is-medium is-rounded" type="submit" id="registerBtn">
+                            Create Account
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Divider -->
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <!-- Google Sign In -->
+                <div class="field">
+                    <div class="control">
+                        <button class="google-btn" onclick="googleSignIn()">
+                            <span class="icon">
+                                <i class="fab fa-google"></i>
+                            </span>
+                            <span>Continue with Google</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Toggle Info -->
+                <div class="has-text-centered mt-4">
+                    <p id="toggleText">Don't have an account? <a href="#" onclick="toggleForm()">Create Account</a></p>
+                    <p class="mt-2"><a href="index.html">← Back to Home</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Backend configuration
+        const backend = {
+            auth: {
+                login: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/login',
+                register: 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/auth/register'
+            }
+        };
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                showNotification('Please fill in all fields', 'danger');
+                return;
+            }
+
+            // Show loading
+            const loginBtn = document.getElementById('loginBtn');
+            loginBtn.classList.add('is-loading');
+
+            try {
+                const response = await fetch(backend.auth.login, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Save token
+                    if (data.token) {
+                        localStorage.setItem('gwa_access_token', data.token);
+                        document.cookie = `login=${data.token}; path=/; max-age=86400`; // 24 hours
+                    }
+
+                    showNotification('Login successful! Redirecting...', 'success');
+
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        window.location.href = 'index.html#dashboard';
+                    }, 1000);
+                } else {
+                    showNotification(data.message || 'Login failed. Please check your credentials.', 'danger');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showNotification('Connection error. Please try again.', 'danger');
+            } finally {
+                loginBtn.classList.remove('is-loading');
+            }
+        });
+
+        // Google Sign In
+        function googleSignIn() {
+            showNotification('Redirecting to Google OAuth...', 'info');
+
+            // Google OAuth URL
+            const googleAuthURL = 'https://accounts.google.com/o/oauth2/auth?' +
+                'client_id=YOUR_GOOGLE_CLIENT_ID&' +
+                'redirect_uri=' + encodeURIComponent(window.location.origin + '/dashboard/auth/callback') + '&' +
+                'response_type=code&' +
+                'scope=email profile&' +
+                'state=google_login';
+
+            // For now, show info since we need proper Google OAuth setup
+            Swal.fire({
+                title: 'Google Sign In',
+                html: `
+                    <div class="content">
+                        <p>Google OAuth integration is configured but requires:</p>
+                        <ol style="text-align: left;">
+                            <li>Valid Google Client ID</li>
+                            <li>Proper redirect URI configuration</li>
+                            <li>Backend OAuth handler</li>
+                        </ol>
+                        <p><strong>Try regular login for now.</strong></p>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Use Regular Login',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('email').focus();
+                }
+            });
+        }
+
+        // Handle register form submission
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (!name || !email || !password || !confirmPassword) {
+                showNotification('Please fill in all fields', 'danger');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match', 'danger');
+                return;
+            }
+
+            if (password.length < 6) {
+                showNotification('Password must be at least 6 characters', 'danger');
+                return;
+            }
+
+            // Show loading
+            const registerBtn = document.getElementById('registerBtn');
+            registerBtn.classList.add('is-loading');
+
+            try {
+                const response = await fetch(backend.auth.register, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    showNotification('Registration successful! Please login with your credentials.', 'success');
+
+                    // Switch to login form
+                    setTimeout(() => {
+                        toggleForm();
+                        // Pre-fill email
+                        document.getElementById('email').value = email;
+                    }, 1500);
+                } else {
+                    showNotification(data.message || 'Registration failed. Please try again.', 'danger');
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                showNotification('Connection error. Please try again.', 'danger');
+            } finally {
+                registerBtn.classList.remove('is-loading');
+            }
+        });
+
+        // Toggle between login and register forms
+        function toggleForm() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const toggleText = document.getElementById('toggleText');
+
+            if (loginForm.style.display === 'none') {
+                // Switch to login
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                toggleText.innerHTML = 'Don\'t have an account? <a href="#" onclick="toggleForm()">Create Account</a>';
+            } else {
+                // Switch to register
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                toggleText.innerHTML = 'Already have an account? <a href="#" onclick="toggleForm()">Sign In</a>';
+            }
+        }
+
+        function showRegisterInfo() {
+            Swal.fire({
+                title: 'Registration',
+                html: `
+                    <div class="content">
+                        <p>Account registration is available in the main application.</p>
+                        <p>Please use the <strong>main dashboard</strong> for full functionality.</p>
+                    </div>
+                `,
+                icon: 'info',
+                confirmButtonText: 'Go to Main App',
+                cancelButtonText: 'Stay Here',
+                showCancelButton: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'index.html#auth';
+                }
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            const messageEl = document.getElementById('notification-message');
+
+            notification.className = `notification is-${type}`;
+            messageEl.textContent = message;
+            notification.classList.remove('is-hidden');
+
+            setTimeout(() => {
+                notification.classList.add('is-hidden');
+            }, 5000);
+        }
+
+        function hideNotification() {
+            document.getElementById('notification').classList.add('is-hidden');
+        }
+
+        // Show info on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                showNotification('This is a standalone login page. For full functionality, use the main application.', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

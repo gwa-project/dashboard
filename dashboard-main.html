@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GWA Project - Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <!-- Bulma Version 1-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@1.0.2/css/bulma.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: #f8f9fa;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .aside {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: calc(100vh - 52px);
+        }
+
+        .aside .item {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 0.25rem 1rem;
+        }
+
+        .aside .item:hover,
+        .aside .item.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .aside .item .icon {
+            margin-right: 0.75rem;
+            width: 20px;
+        }
+
+        .compose .button {
+            background: linear-gradient(45deg, #ff6b6b, #ff8787);
+            border: none;
+            font-weight: 600;
+            margin: 1.5rem;
+            border-radius: 50px;
+        }
+
+        .compose .button:hover {
+            background: linear-gradient(45deg, #ff5252, #ff6b6b);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-content {
+            padding: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .welcome-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin: 0 auto 1rem;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            color: inherit;
+        }
+
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+
+        .recent-activity {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar has-shadow">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="index.html">
+                    <i class="fa fa-shield" style="color: #667eea; margin-right: 0.5rem;"></i>
+                    <strong>GWA Project</strong>
+                </a>
+
+                <div class="navbar-burger burger" data-target="navMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div class="navbar-menu" id="navMenu">
+                <div class="navbar-end">
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link" id="userDropdown">
+                            <i class="fa fa-user-circle" style="margin-right: 0.5rem;"></i>
+                            <span id="navUserName">Account</span>
+                        </a>
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item" onclick="showSection('profile')">
+                                <i class="fa fa-user" style="margin-right: 0.5rem;"></i>
+                                Profile
+                            </a>
+                            <a class="navbar-item" onclick="showSection('settings')">
+                                <i class="fa fa-cog" style="margin-right: 0.5rem;"></i>
+                                Settings
+                            </a>
+                            <hr class="navbar-divider">
+                            <a class="navbar-item" onclick="handleLogout()">
+                                <i class="fa fa-sign-out" style="margin-right: 0.5rem;"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="columns is-gapless" id="dashboard-app">
+        <aside class="column is-2 aside">
+            <div>
+                <div class="compose has-text-centered">
+                    <a class="button is-danger is-block is-bold" onclick="showSection('dashboard')">
+                        <span class="compose">Dashboard</span>
+                    </a>
+                </div>
+                <div class="main">
+                    <a href="#" class="item active" onclick="showSection('dashboard')">
+                        <span class="icon"><i class="fa fa-dashboard"></i></span>
+                        <span class="name">Dashboard</span>
+                    </a>
+                    <a href="#" class="item" onclick="showSection('profile')">
+                        <span class="icon"><i class="fa fa-user"></i></span>
+                        <span class="name">Profile</span>
+                    </a>
+                    <a href="#" class="item" onclick="showSection('users')">
+                        <span class="icon"><i class="fa fa-users"></i></span>
+                        <span class="name">Users</span>
+                    </a>
+                    <a href="#" class="item" onclick="showSection('settings')">
+                        <span class="icon"><i class="fa fa-cog"></i></span>
+                        <span class="name">Settings</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <div class="column dashboard-content">
+            <!-- Dashboard Section -->
+            <div id="dashboard-section">
+                <div class="welcome-section">
+                    <div class="has-text-centered">
+                        <div class="user-avatar" id="userAvatarMain">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <h1 class="title is-3" id="welcomeTitle">Welcome back!</h1>
+                        <p class="subtitle" id="welcomeSubtitle">Here's what's happening with your account</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalUsers">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="activeSessions">1</div>
+                        <div class="stat-label">Active Sessions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="systemStatus">Online</div>
+                        <div class="stat-label">System Status</div>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-8">
+                        <div class="recent-activity">
+                            <h3 class="title is-4">Recent Activity</h3>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fa fa-check"></i>
+                                </div>
+                                <div>
+                                    <p><strong>Login successful</strong></p>
+                                    <small class="has-text-grey">Just now</small>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div>
+                                    <p><strong>Profile accessed</strong></p>
+                                    <small class="has-text-grey">2 minutes ago</small>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fa fa-shield"></i>
+                                </div>
+                                <div>
+                                    <p><strong>Security check completed</strong></p>
+                                    <small class="has-text-grey">5 minutes ago</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <div class="quick-actions">
+                            <a href="#" class="action-card" onclick="showSection('profile')">
+                                <div class="action-icon">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <h5 class="title is-6">Profile</h5>
+                                <p class="has-text-grey">Manage your account</p>
+                            </a>
+                            <a href="#" class="action-card" onclick="showSection('settings')">
+                                <div class="action-icon">
+                                    <i class="fa fa-cog"></i>
+                                </div>
+                                <h5 class="title is-6">Settings</h5>
+                                <p class="has-text-grey">Configure system</p>
+                            </a>
+                            <a href="#" class="action-card" onclick="showSection('users')">
+                                <div class="action-icon">
+                                    <i class="fa fa-users"></i>
+                                </div>
+                                <h5 class="title is-6">Users</h5>
+                                <p class="has-text-grey">Manage users</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <div id="profile-section" class="is-hidden">
+                <div class="welcome-section">
+                    <h1 class="title is-3">Profile Management</h1>
+                    <p class="subtitle">Update your personal information</p>
+                </div>
+
+                <div class="columns">
+                    <div class="column is-6">
+                        <div class="box">
+                            <h4 class="title is-4">Personal Information</h4>
+                            <div class="field">
+                                <label class="label">Name</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="profileName" placeholder="Your name">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <div class="control">
+                                    <input class="input" type="email" id="profileEmail" placeholder="Your email" readonly>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Phone</label>
+                                <div class="control">
+                                    <input class="input" type="tel" id="profilePhone" placeholder="Your phone number">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-primary" onclick="updateProfile()">
+                                        Update Profile
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other sections will be loaded here -->
+            <div id="users-section" class="is-hidden">
+                <div class="welcome-section">
+                    <h1 class="title is-3">User Management</h1>
+                    <p class="subtitle">Manage system users</p>
+                </div>
+                <div class="box">
+                    <p>User management features will be available here.</p>
+                </div>
+            </div>
+
+            <div id="settings-section" class="is-hidden">
+                <div class="welcome-section">
+                    <h1 class="title is-3">Settings</h1>
+                    <p class="subtitle">Application settings</p>
+                </div>
+                <div class="box">
+                    <p>Settings panel will be available here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Backend configuration
+        const BACKEND_URL = 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function';
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('gwa_access_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+
+        // Load user data
+        async function loadUserData() {
+            try {
+                const user = JSON.parse(localStorage.getItem('gwa_user') || '{}');
+                if (user.name) {
+                    document.getElementById('navUserName').textContent = user.name;
+                    document.getElementById('welcomeTitle').textContent = `Welcome back, ${user.name}!`;
+                    document.getElementById('welcomeSubtitle').textContent = user.email || 'Here\'s what\'s happening with your account';
+
+                    // Update profile form
+                    document.getElementById('profileName').value = user.name || '';
+                    document.getElementById('profileEmail').value = user.email || '';
+                    document.getElementById('profilePhone').value = user.phonenumber || '';
+
+                    // Update avatar with user picture or initials
+                    const avatarMain = document.getElementById('userAvatarMain');
+                    if (user.picture) {
+                        avatarMain.innerHTML = `<img src="${user.picture}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+                    } else if (user.name) {
+                        avatarMain.innerHTML = user.name.charAt(0).toUpperCase();
+                    }
+                }
+
+                // Try to get fresh user data from server
+                const token = localStorage.getItem('gwa_access_token');
+                const response = await fetch(`${BACKEND_URL}/auth/profile`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success && data.data) {
+                        localStorage.setItem('gwa_user', JSON.stringify(data.data));
+                        // Update UI with fresh data
+                        document.getElementById('navUserName').textContent = data.data.name || 'User';
+                        document.getElementById('welcomeTitle').textContent = `Welcome back, ${data.data.name || 'User'}!`;
+                        document.getElementById('profileName').value = data.data.name || '';
+                        document.getElementById('profileEmail').value = data.data.email || '';
+                        document.getElementById('profilePhone').value = data.data.phonenumber || '';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        // Show section
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('#dashboard-app > .column > div[id$="-section"]').forEach(section => {
+                section.classList.add('is-hidden');
+            });
+
+            // Show selected section
+            const targetSection = document.getElementById(sectionName + '-section');
+            if (targetSection) {
+                targetSection.classList.remove('is-hidden');
+            }
+
+            // Update active menu item
+            document.querySelectorAll('.aside .item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            const activeItem = document.querySelector(`.aside .item[onclick*="${sectionName}"]`);
+            if (activeItem) {
+                activeItem.classList.add('active');
+            }
+        }
+
+        // Handle logout
+        async function handleLogout() {
+            try {
+                const token = localStorage.getItem('gwa_access_token');
+
+                // Try server logout
+                await fetch(`${BACKEND_URL}/logout`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+            } catch (error) {
+                console.error('Server logout error:', error);
+            }
+
+            // Clear local storage
+            localStorage.removeItem('gwa_access_token');
+            localStorage.removeItem('gwa_refresh_token');
+            localStorage.removeItem('gwa_user');
+
+            // Clear cookies
+            document.cookie = 'login=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
+            // Redirect to login
+            window.location.href = 'login.html';
+        }
+
+        // Update profile
+        async function updateProfile() {
+            const name = document.getElementById('profileName').value;
+            const phone = document.getElementById('profilePhone').value;
+            const token = localStorage.getItem('gwa_access_token');
+
+            try {
+                const response = await fetch(`${BACKEND_URL}/profile/update`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        phonenumber: phone
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Profile updated successfully!',
+                        icon: 'success',
+                        confirmButtonColor: '#667eea'
+                    });
+                    loadUserData(); // Refresh user data
+                } else {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.error || 'Failed to update profile',
+                        icon: 'error',
+                        confirmButtonColor: '#667eea'
+                    });
+                }
+            } catch (error) {
+                console.error('Update profile error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An error occurred while updating profile',
+                    icon: 'error',
+                    confirmButtonColor: '#667eea'
+                });
+            }
+        }
+
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbarBurger = document.querySelector('.navbar-burger');
+            const navbarMenu = document.querySelector('#navMenu');
+
+            if (navbarBurger && navbarMenu) {
+                navbarBurger.addEventListener('click', () => {
+                    navbarBurger.classList.toggle('is-active');
+                    navbarMenu.classList.toggle('is-active');
+                });
+            }
+
+            // Check authentication and load data
+            if (checkAuth()) {
+                loadUserData();
+            }
+        });
+    </script>
+</body>
+</html>

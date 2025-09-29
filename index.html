@@ -1,24 +1,313 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+<html class="theme-light">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GWA Project - Dashboard</title>
-    <!--========== jscroot ==========-->
-    <script src="jscroot/index.js" type="module"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GWA Project - Modern Authentication Dashboard</title>
+    <script src="https://kit.fontawesome.com/15181efa86.js" crossorigin="anonymous"></script>
+    <!-- Bulma Version 1-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@1.0.4/css/bulma.min.css" />
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Nunito+Sans:wght@400;600&display=swap');
+
+      .va {
+        display: flex;
+        align-items: center;
+      }
+
+      html {
+        font-family: 'Nunito Sans', sans-serif;
+        color: white;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+
+      .navbar .navbar-item {
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 500;
+      }
+
+      .navbar .navbar-item.is-active {
+        color: white;
+        font-weight: 700;
+      }
+
+      .navbar .navbar-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+
+      .post {
+        margin-bottom: 2rem;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .post:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+      }
+
+      .post-img img {
+        border-radius: 8px;
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .featured .post-img img {
+        height: 300px;
+      }
+
+      .post-category {
+        color: #667eea;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+      }
+
+      .post-title {
+        margin: 0.5rem 0;
+        color: #2c3e50;
+        font-weight: 700;
+      }
+
+      .post-excerpt {
+        color: #6c757d;
+        line-height: 1.6;
+      }
+
+      .login-btn {
+        background: linear-gradient(45deg, #ff6b6b, #ff8787);
+        border: none;
+        color: white;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border-radius: 50px;
+        padding: 1rem 2rem;
+      }
+
+      .login-btn:hover {
+        background: linear-gradient(45deg, #ff5252, #ff6b6b);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+        color: white;
+      }
+
+      .blog-posts {
+        background: #f8f9fa;
+        padding: 4rem 0;
+      }
+
+      .featured-content {
+        padding: 2rem;
+      }
+
+      .hero-logo {
+        width: 200px;
+        height: 60px;
+        background: white;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .hero-logo i {
+        font-size: 2rem;
+        color: #667eea;
+        margin-right: 0.5rem;
+      }
+
+      .hero-logo span {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+      }
+    </style>
   </head>
+
   <body>
-    <!--========== HEADER ==========-->
-    <header class="header">
-      <div class="header__container" id="header__container"></div>
-    </header>
+    <section class="hero is-fullheight">
+      <div class="hero-head">
+        <div class="container">
+          <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div id="navbarBasicExample" class="navbar-menu">
+              <div class="navbar-start">
+                <a class="navbar-item is-active">
+                  Home
+                </a>
+                <a class="navbar-item">
+                  Features
+                </a>
+                <a class="navbar-item">
+                  Documentation
+                </a>
+              </div>
 
-    <!--========== NAV ==========-->
-    <div class="nav" id="navbar"></div>
+              <div class="navbar-end">
+                <div class="navbar-item">
+                  <a href="login.html" class="button login-btn">
+                    <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+                    <span>Login</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <div class="hero-logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>GWA Project</span>
+          </div>
+          <h1 class="title is-1 has-text-white">
+            Modern Authentication Dashboard
+          </h1>
+          <h2 class="subtitle has-text-white">
+            Secure, scalable, dan modern authentication system dengan Google SSO integration
+          </h2>
+          <div class="buttons is-centered mt-5">
+            <a href="login.html" class="button is-large login-btn">
+              <span class="icon mr-2"><i class="fas fa-rocket"></i></span>
+              <span>Get Started</span>
+            </a>
+            <a href="#features" class="button is-large is-outlined has-text-white">
+              <span class="icon mr-2"><i class="fas fa-info-circle"></i></span>
+              <span>Learn More</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <!--========== CONTENTS ==========-->
-    <main id="content"></main>
+    <section class="blog-posts" id="features">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-10 is-offset-1">
+            <div class="has-text-centered mb-6">
+              <h2 class="title is-2 has-text-dark">Powerful Features</h2>
+              <p class="subtitle has-text-dark">Everything you need for secure authentication and project management</p>
+            </div>
+
+            <div class="columns featured-post is-multiline">
+              <div class="column is-12 post">
+                <article class="columns featured">
+                  <div class="column is-7 post-img">
+                    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80" alt="Security Dashboard">
+                  </div>
+                  <div class="column is-5 featured-content va">
+                    <div>
+                      <h3 class="heading post-category">Enterprise Security</h3>
+                      <h1 class="title post-title">Advanced Authentication System</h1>
+                      <p class="post-excerpt">Built with modern security standards including PASETO tokens, Google OAuth 2.0 integration, and enterprise-grade protection for your applications.</p>
+                      <br>
+                      <a href="login.html" class="button is-primary">Get Started</a>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="columns is-multiline">
+              <div class="column post is-4">
+                <article class="columns is-multiline">
+                  <div class="column is-12 post-img">
+                    <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?auto=format&fit=crop&w=500&q=80" alt="Google SSO">
+                  </div>
+                  <div class="column is-12 featured-content">
+                    <h3 class="heading post-category">Google Integration</h3>
+                    <h1 class="title post-title">Google SSO Login</h1>
+                    <p class="post-excerpt">Sign in seamlessly with your Google account. No need to remember another password - secure and convenient authentication.</p>
+                    <br>
+                    <a href="login.html" class="button is-primary">Try Login</a>
+                  </div>
+                </article>
+              </div>
+
+              <div class="column post is-4">
+                <article class="columns is-multiline">
+                  <div class="column is-12 post-img">
+                    <img src="https://images.unsplash.com/photo-1551808525-51a94da548ce?auto=format&fit=crop&w=500&q=80" alt="Dashboard">
+                  </div>
+                  <div class="column is-12 featured-content">
+                    <h3 class="heading post-category">Modern Interface</h3>
+                    <h1 class="title post-title">Responsive Dashboard</h1>
+                    <p class="post-excerpt">Clean and intuitive dashboard interface built with modern web technologies and responsive design for all devices.</p>
+                    <br>
+                    <a href="login.html" class="button is-primary">View Dashboard</a>
+                  </div>
+                </article>
+              </div>
+
+              <div class="column post is-4">
+                <article class="columns is-multiline">
+                  <div class="column is-12 post-img">
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=500&q=80" alt="Cloud Infrastructure">
+                  </div>
+                  <div class="column is-12 featured-content">
+                    <h3 class="heading post-category">Cloud Ready</h3>
+                    <h1 class="title post-title">Google Cloud Platform</h1>
+                    <p class="post-excerpt">Deployed on Google Cloud Functions with scalable and reliable infrastructure for global performance and availability.</p>
+                    <br>
+                    <a href="login.html" class="button is-primary">Learn More</a>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer has-background-dark">
+      <div class="container">
+        <div class="has-text-centered">
+          <p class="title is-4 has-text-white">
+            <i class="fas fa-shield-alt mr-2"></i>
+            GWA Project
+          </p>
+          <p class="subtitle has-text-white">
+            Modern authentication system built for security and scalability
+          </p>
+          <div class="buttons is-centered">
+            <a href="login.html" class="button login-btn">
+              <span class="icon"><i class="fas fa-sign-in-alt"></i></span>
+              <span>Start Using Now</span>
+            </a>
+          </div>
+          <hr style="background: #4a4a4a;">
+          <p class="has-text-white">© 2024 GWA Project. Built with ❤️ using Go, MongoDB, and Google Cloud Platform.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    </script>
   </body>
 </html>
