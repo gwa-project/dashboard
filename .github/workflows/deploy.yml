@@ -1,4 +1,4 @@
-name: Deploy Vue.js Dashboard to GCP
+name: Deploy Dashboard to Cloud Run
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 
 env:
+  SERVICE_NAME: gwa-dashboard
   REGION: asia-southeast2
 
 jobs:
@@ -16,56 +17,42 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '16'
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build Vue.js application
-      run: npm run build
-
     - name: Authenticate to Google Cloud
-      uses: google-github-actions/auth@v2
+      uses: google-github-actions/auth@v1
       with:
-        project_id: ${{ secrets.GCP_PROJECT_ID }}
-        create_credentials_file: true
-        export_environment_variables: true
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
     - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v2
+      uses: google-github-actions/setup-gcloud@v1
 
     - name: Verify authentication
       run: gcloud auth list
 
-    - name: Create app.yaml
-      working-directory: dist
+    - name: Enable required APIs
       run: |
-        cat > app.yaml << EOF
-        runtime: python39
+        echo "Ensuring required APIs are enabled..."
+        gcloud services enable run.googleapis.com
+        gcloud services enable cloudbuild.googleapis.com
+        gcloud services enable artifactregistry.googleapis.com
+        echo "All APIs enabled successfully!"
 
-        handlers:
-        - url: /
-          static_files: index.html
-          upload: index.html
+    - name: Configure Docker for GCR
+      run: gcloud auth configure-docker
 
-        - url: /(.*)
-          static_files: \1
-          upload: (.*)
-
-        - url: /.*
-          static_files: index.html
-          upload: index.html
-        EOF
-
-    - name: Deploy to App Engine
-      working-directory: dist
+    - name: Build and Deploy to Cloud Run
       run: |
-        gcloud app deploy --quiet --project=${{ secrets.GCP_PROJECT_ID }}
+        gcloud run deploy ${{ env.SERVICE_NAME }} \
+          --source=. \
+          --region=${{ env.REGION }} \
+          --allow-unauthenticated \
+          --memory=256Mi \
+          --cpu=1 \
+          --min-instances=0 \
+          --max-instances=10 \
+          --timeout=300s \
+          --port=8080
 
-    - name: Get deployed URL
+    - name: Get service URL
       run: |
-        APP_URL=$(gcloud app browse --no-launch-browser --project=${{ secrets.GCP_PROJECT_ID }})
-        echo "Dashboard deployed at: $APP_URL"
+        SERVICE_URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} --region=${{ env.REGION }} --format="value(status.url)")
+        echo "Dashboard deployed at: $SERVICE_URL"
