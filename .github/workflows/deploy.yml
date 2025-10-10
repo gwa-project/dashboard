@@ -7,7 +7,7 @@ on:
 
 env:
   SERVICE_NAME: gwa-dashboard
-  REGION: asia-southeast2
+  REGION: asia-northeast1
 
 jobs:
   deploy:
