@@ -13,22 +13,22 @@
           <span>Dashboard</span>
         </router-link>
 
-        <router-link to="/profile" class="menu-item" active-class="active">
+        <router-link to="/dashboard/profile" class="menu-item" active-class="active">
           <i class="ni ni-single-02"></i>
           <span>Profile</span>
         </router-link>
 
-        <router-link to="/users" class="menu-item" active-class="active">
+        <router-link to="/dashboard/users" class="menu-item" active-class="active">
           <i class="ni ni-bullet-list-67"></i>
           <span>Users</span>
         </router-link>
 
-        <router-link to="/qris-payment" class="menu-item" active-class="active">
+        <router-link to="/dashboard/qris" class="menu-item" active-class="active">
           <i class="ni ni-credit-card"></i>
           <span>QRIS Payment</span>
         </router-link>
 
-        <router-link to="/settings" class="menu-item" active-class="active">
+        <router-link to="/dashboard/settings" class="menu-item" active-class="active">
           <i class="ni ni-settings-gear-65"></i>
           <span>Settings</span>
         </router-link>
