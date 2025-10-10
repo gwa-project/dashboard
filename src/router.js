@@ -85,8 +85,14 @@ const router = new Router({
 
 // Navigation guard for authentication
 router.beforeEach((to, from, next) => {
-  const token = localStorage.getItem('gwa_token');
+  const token = localStorage.getItem('gwa_access_token');
   const user = JSON.parse(localStorage.getItem('gwa_user') || '{}');
+
+  // Prevent infinite redirect loops
+  if (to.path === from.path) {
+    next(false);
+    return;
+  }
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!token) {
