@@ -1,0 +1,97 @@
+<div id="dashboard-section">
+    <div class="welcome-section">
+        <div class="has-text-centered">
+            <div class="user-avatar" id="userAvatarMain">
+                <i class="fa fa-user"></i>
+            </div>
+            <h1 class="title is-3" id="welcomeTitle">Welcome back!</h1>
+            <p class="subtitle" id="welcomeSubtitle">Here's what's happening with your account</p>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-number" id="totalUsers">0</div>
+            <div class="stat-label">Total Users</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="activeSessions">1</div>
+            <div class="stat-label">Active Sessions</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">99.9%</div>
+            <div class="stat-label">Uptime</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number" id="systemStatus">Online</div>
+            <div class="stat-label">System Status</div>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column is-8">
+            <div class="recent-activity">
+                <h3 class="title is-4">Recent Activity</h3>
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fa fa-check"></i>
+                    </div>
+                    <div>
+                        <p><strong>Login successful</strong></p>
+                        <small class="has-text-grey">Just now</small>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div>
+                        <p><strong>Profile accessed</strong></p>
+                        <small class="has-text-grey">2 minutes ago</small>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fa fa-shield"></i>
+                    </div>
+                    <div>
+                        <p><strong>Security check completed</strong></p>
+                        <small class="has-text-grey">5 minutes ago</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column is-4">
+            <div class="quick-actions">
+                <a href="javascript:loadPage('nav-profile')" class="action-card">
+                    <div class="action-icon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <h5 class="title is-6">Profile</h5>
+                    <p class="has-text-grey">Manage your account</p>
+                </a>
+                <a href="javascript:loadPage('nav-settings')" class="action-card">
+                    <div class="action-icon">
+                        <i class="fa fa-cog"></i>
+                    </div>
+                    <h5 class="title is-6">Settings</h5>
+                    <p class="has-text-grey">Configure system</p>
+                </a>
+                <a href="javascript:loadPage('nav-users')" class="action-card">
+                    <div class="action-icon">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <h5 class="title is-6">Users</h5>
+                    <p class="has-text-grey">Manage users</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Load user data when dashboard loads
+if (typeof loadUserData === 'function') {
+    loadUserData();
+}
+</script>

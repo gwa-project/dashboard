@@ -1,0 +1,131 @@
+<div id="profile-section">
+    <div class="welcome-section">
+        <div class="has-text-centered">
+            <h1 class="title is-3"><i class="fa fa-user"></i> Profile</h1>
+            <p class="subtitle">Manage your account information</p>
+        </div>
+    </div>
+
+    <div class="box">
+        <form id="profileForm">
+            <div class="field">
+                <label class="label">Name</label>
+                <div class="control">
+                    <input class="input" type="text" id="profileName" placeholder="Your name">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                    <input class="input" type="email" id="profileEmail" placeholder="your@email.com" readonly>
+                </div>
+                <p class="help">Email cannot be changed</p>
+            </div>
+
+            <div class="field">
+                <label class="label">Phone Number</label>
+                <div class="control">
+                    <input class="input" type="tel" id="profilePhone" placeholder="08xxxxxxxxxx">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Discord ID</label>
+                <div class="control">
+                    <input class="input" type="text" id="profileDiscord" placeholder="username#1234">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Role</label>
+                <div class="control">
+                    <input class="input" type="text" id="profileRole" readonly>
+                </div>
+            </div>
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <button type="submit" class="button is-primary">
+                        <i class="fa fa-save" style="margin-right: 0.5rem;"></i>
+                        Update Profile
+                    </button>
+                </div>
+                <div class="control">
+                    <button type="button" class="button is-light" onclick="loadPage('nav-dashboard')">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Load profile data from dashboard-main.html loadUserData function
+document.addEventListener('DOMContentLoaded', () => {
+    const user = JSON.parse(localStorage.getItem('gwa_user') || '{}');
+
+    if (user.name) document.getElementById('profileName').value = user.name;
+    if (user.email) document.getElementById('profileEmail').value = user.email;
+    if (user.phonenumber) document.getElementById('profilePhone').value = user.phonenumber;
+    if (user.discordid) document.getElementById('profileDiscord').value = user.discordid;
+    if (user.role) document.getElementById('profileRole').value = user.role;
+});
+
+// Handle form submission
+document.getElementById('profileForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const BACKEND_URL = 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function';
+    const token = localStorage.getItem('gwa_access_token');
+
+    try {
+        const response = await fetch(`${BACKEND_URL}/user`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Login': token
+            },
+            body: JSON.stringify({
+                name: document.getElementById('profileName').value,
+                phonenumber: document.getElementById('profilePhone').value,
+                discordid: document.getElementById('profileDiscord').value
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+            // Update local storage
+            const user = JSON.parse(localStorage.getItem('gwa_user'));
+            user.name = document.getElementById('profileName').value;
+            user.phonenumber = document.getElementById('profilePhone').value;
+            user.discordid = document.getElementById('profileDiscord').value;
+            localStorage.setItem('gwa_user', JSON.stringify(user));
+
+            Swal.fire({
+                title: 'Success!',
+                text: 'Profile updated successfully!',
+                icon: 'success',
+                confirmButtonColor: '#ff6b9d'
+            });
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: data.message || 'Failed to update profile',
+                icon: 'error',
+                confirmButtonColor: '#ff6b9d'
+            });
+        }
+    } catch (error) {
+        console.error('Update profile error:', error);
+        Swal.fire({
+            title: 'Error!',
+            text: 'An error occurred while updating profile',
+            icon: 'error',
+            confirmButtonColor: '#ff6b9d'
+        });
+    }
+});
+</script>

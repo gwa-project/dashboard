@@ -1,0 +1,426 @@
+<div id="qris-section">
+    <div class="welcome-section">
+        <div class="has-text-centered">
+            <h1 class="title is-3"><i class="fa fa-qrcode"></i> QRIS Payment</h1>
+            <p class="subtitle">Crowdfunding Payment System</p>
+        </div>
+    </div>
+
+    <!-- User Info -->
+    <div class="box">
+        <h4 class="title is-5">Informasi User</h4>
+        <div id="userInfo">
+            <p><strong>Status:</strong> <span id="userStatus">Loading...</span></p>
+        </div>
+    </div>
+
+    <!-- Queue Info -->
+    <div id="queueInfo" class="notification is-warning" style="display: none;">
+        <button class="delete" onclick="document.getElementById('queueInfo').style.display='none'"></button>
+        <p><strong>⏰ Sedang ada pembayaran berlangsung</strong></p>
+        <p><strong>Berakhir dalam:</strong> <span id="queueTimer" style="color: #e74c3c; font-weight: bold;">00:00</span></p>
+        <p>Mohon tunggu hingga pembayaran selesai atau waktu habis.</p>
+    </div>
+
+    <!-- Payment Form -->
+    <div id="orderForm" class="box">
+        <h4 class="title is-5">Buat Pembayaran</h4>
+        <div class="field">
+            <label class="label">Jumlah Pembayaran (Rp)</label>
+            <div class="control">
+                <input type="number" id="amount" class="input" placeholder="Masukkan jumlah pembayaran" min="1000">
+            </div>
+            <p class="help">Minimum Rp 1.000</p>
+        </div>
+
+        <button id="submitBtn" class="button is-primary is-fullwidth" onclick="createOrder()">
+            <span class="icon"><i class="fa fa-qrcode"></i></span>
+            <span>Buat Pembayaran QRIS</span>
+        </button>
+
+        <div id="queueMessage" class="notification is-warning" style="display: none; margin-top: 1rem;">
+            Sedang ada pembayaran berlangsung. Mohon tunggu...
+        </div>
+    </div>
+
+    <!-- QRIS Payment Container -->
+    <div id="paymentContainer" class="box" style="display: none;">
+        <div class="notification is-info is-light">
+            <p><strong>Order ID:</strong> <span id="orderId"></span></p>
+            <p><strong>Nama:</strong> <span id="customerName"></span></p>
+            <p><strong>No. HP:</strong> <span id="customerPhone"></span></p>
+            <p><strong>Jumlah:</strong> Rp <span id="paymentAmount"></span></p>
+        </div>
+
+        <div class="has-text-centered">
+            <p class="title is-6">Silakan scan kode QRIS di bawah ini</p>
+            <p class="has-text-danger has-text-weight-bold">
+                ⚠️ JANGAN TINGGALKAN ATAU KELUAR DARI HALAMAN INI DAN JANGAN REFRESH JUGA !!!
+            </p>
+
+            <div class="notification is-danger is-light" style="margin: 1rem 0;">
+                <p class="title is-4">
+                    <span class="icon"><i class="fa fa-clock-o"></i></span>
+                    <span id="countdown">3600</span> detik
+                </p>
+            </div>
+
+            <figure class="image" style="max-width: 400px; margin: 0 auto;">
+                <img id="qrisImage" src="" alt="QRIS Code" style="border: 2px solid #ff6b9d; border-radius: 8px; padding: 10px; background: white;">
+            </figure>
+
+            <div class="notification is-info is-light" style="margin-top: 1rem;">
+                <span class="icon"><i class="fa fa-info-circle"></i></span>
+                Pembayaran akan otomatis kedaluwarsa jika tidak diselesaikan dalam waktu yang ditentukan
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Container -->
+    <div id="statusContainer" class="box" style="display: none;">
+        <div id="paymentStatus" class="notification"></div>
+        <button id="newPaymentBtn" class="button is-primary is-fullwidth" onclick="resetForm()">
+            <span class="icon"><i class="fa fa-refresh"></i></span>
+            <span>Buat Pembayaran Baru</span>
+        </button>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="box">
+        <h4 class="title is-5">Statistik Pembayaran</h4>
+        <div class="columns">
+            <div class="column">
+                <div class="notification is-primary is-light has-text-centered">
+                    <p class="heading">Total Pembayaran</p>
+                    <p class="title is-4" id="totalAmount">Rp 0</p>
+                </div>
+            </div>
+            <div class="column">
+                <div class="notification is-info is-light has-text-centered">
+                    <p class="heading">Jumlah Transaksi</p>
+                    <p class="title is-4" id="totalCount">0</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let orderId = null;
+let countdownInterval = null;
+let checkPaymentStatusInterval = null;
+let queueTimerInterval = null;
+let userInfo = {
+    name: "",
+    phoneNumber: "",
+    npm: ""
+};
+
+// Get API URL
+const API_URL = 'https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function';
+
+// Get token
+function getToken() {
+    return localStorage.getItem('gwa_access_token');
+}
+
+// Format currency
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('id-ID').format(amount);
+}
+
+// Format time
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+// Get user info
+async function getUserInfo() {
+    try {
+        const token = getToken();
+        if (!token) {
+            document.getElementById('userStatus').innerHTML = '<span class="tag is-danger">❌ Tidak ada token login</span>';
+            document.getElementById('submitBtn').disabled = true;
+            return;
+        }
+
+        const response = await fetch(`${API_URL}/api/crowdfunding/userinfo`, {
+            headers: {
+                'Login': token
+            }
+        });
+
+        if (!response.ok) throw new Error('Failed to get user info');
+
+        const data = await response.json();
+
+        userInfo = {
+            name: data.name || data.data?.name || "",
+            phoneNumber: data.phoneNumber || data.data?.phoneNumber || "",
+            npm: data.npm || data.data?.npm || ""
+        };
+
+        if (userInfo.name && userInfo.phoneNumber) {
+            document.getElementById('userStatus').innerHTML = `
+                <span class="tag is-success">✅ ${userInfo.name}</span>
+                <span class="tag is-info">📱 ${userInfo.phoneNumber}</span>
+            `;
+            document.getElementById('submitBtn').disabled = false;
+        } else {
+            document.getElementById('userStatus').innerHTML = '<span class="tag is-warning">⚠️ Data user tidak lengkap</span>';
+            document.getElementById('submitBtn').disabled = true;
+        }
+    } catch (error) {
+        console.error('Error getting user info:', error);
+        document.getElementById('userStatus').innerHTML = '<span class="tag is-danger">❌ Gagal mendapatkan info user</span>';
+        document.getElementById('submitBtn').disabled = true;
+    }
+}
+
+// Check queue status
+async function checkQueueStatus() {
+    try {
+        const response = await fetch(`${API_URL}/api/crowdfunding/queueStatus`);
+        const result = await response.json();
+        const data = result.data || result;
+
+        if (data.success && data.isProcessing) {
+            document.getElementById('queueInfo').style.display = 'block';
+            document.getElementById('queueMessage').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+
+            if (data.expiryTime) {
+                startQueueTimer(data.expiryTime);
+            }
+
+            setTimeout(checkQueueStatus, 5000);
+        } else {
+            document.getElementById('queueInfo').style.display = 'none';
+            document.getElementById('queueMessage').style.display = 'none';
+            if (userInfo.name && userInfo.phoneNumber) {
+                document.getElementById('submitBtn').disabled = false;
+            }
+            clearInterval(queueTimerInterval);
+        }
+    } catch (error) {
+        console.error('Error checking queue:', error);
+        setTimeout(checkQueueStatus, 10000);
+    }
+}
+
+// Start queue timer
+function startQueueTimer(expiryTimeStr) {
+    clearInterval(queueTimerInterval);
+    const expiryTime = new Date(expiryTimeStr);
+
+    queueTimerInterval = setInterval(() => {
+        const now = new Date();
+        const timeLeft = Math.max(0, Math.floor((expiryTime - now) / 1000));
+
+        if (timeLeft <= 0) {
+            clearInterval(queueTimerInterval);
+            document.getElementById('queueInfo').style.display = 'none';
+            document.getElementById('queueMessage').style.display = 'none';
+            if (userInfo.name && userInfo.phoneNumber) {
+                document.getElementById('submitBtn').disabled = false;
+            }
+            checkQueueStatus();
+        } else {
+            document.getElementById('queueTimer').textContent = formatTime(timeLeft);
+        }
+    }, 1000);
+}
+
+// Create QRIS order
+async function createOrder() {
+    const amount = parseFloat(document.getElementById('amount').value);
+
+    if (isNaN(amount) || amount < 1000) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Silakan masukkan jumlah pembayaran minimal Rp 1.000',
+            icon: 'error',
+            confirmButtonColor: '#ff6b9d'
+        });
+        return;
+    }
+
+    if (!userInfo.name || !userInfo.phoneNumber) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Data pengguna tidak lengkap',
+            icon: 'error',
+            confirmButtonColor: '#ff6b9d'
+        });
+        return;
+    }
+
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="icon"><i class="fa fa-spinner fa-spin"></i></span><span>Memproses...</span>';
+
+    try {
+        const token = getToken();
+        const response = await fetch(`${API_URL}/api/crowdfunding/qris/createOrder`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Login': token
+            },
+            body: JSON.stringify({ amount })
+        });
+
+        const result = await response.json();
+        const data = result.data || result;
+
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span class="icon"><i class="fa fa-qrcode"></i></span><span>Buat Pembayaran QRIS</span>';
+
+        if (data.success) {
+            orderId = data.orderId;
+
+            document.getElementById('orderId').textContent = data.orderId;
+            document.getElementById('customerName').textContent = userInfo.name;
+            document.getElementById('customerPhone').textContent = userInfo.phoneNumber;
+            document.getElementById('paymentAmount').textContent = formatCurrency(amount);
+            document.getElementById('qrisImage').src = data.qrisImageUrl || data.QRISImageURL;
+
+            document.getElementById('orderForm').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'none';
+            document.getElementById('paymentContainer').style.display = 'block';
+
+            startCountdown();
+            checkPaymentStatusInterval = setInterval(checkPaymentStatus, 3000);
+        } else if (data.queueStatus) {
+            document.getElementById('queueMessage').style.display = 'block';
+            document.getElementById('queueInfo').style.display = 'block';
+            submitBtn.disabled = true;
+
+            if (data.expiryTime) {
+                startQueueTimer(data.expiryTime);
+            }
+
+            setTimeout(checkQueueStatus, 5000);
+
+            Swal.fire({
+                title: 'Mohon Tunggu',
+                text: 'Sedang ada pembayaran berlangsung. Mohon tunggu.',
+                icon: 'warning',
+                confirmButtonColor: '#ff6b9d'
+            });
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: 'Gagal membuat pembayaran: ' + (data.message || 'Unknown error'),
+                icon: 'error',
+                confirmButtonColor: '#ff6b9d'
+            });
+        }
+    } catch (error) {
+        console.error('Error creating order:', error);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span class="icon"><i class="fa fa-qrcode"></i></span><span>Buat Pembayaran QRIS</span>';
+
+        Swal.fire({
+            title: 'Error!',
+            text: 'Terjadi kesalahan. Silakan coba lagi.',
+            icon: 'error',
+            confirmButtonColor: '#ff6b9d'
+        });
+    }
+}
+
+// Start countdown
+function startCountdown() {
+    let timeLeft = 3600;
+    document.getElementById('countdown').textContent = timeLeft;
+
+    countdownInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('countdown').textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            displayPaymentStatus('failed', 'Pembayaran kedaluwarsa. Silakan coba lagi.');
+        }
+    }, 1000);
+}
+
+// Check payment status
+async function checkPaymentStatus() {
+    if (!orderId) return;
+
+    try {
+        const token = getToken();
+        const response = await fetch(`${API_URL}/api/crowdfunding/checkPayment/${orderId}`, {
+            headers: {
+                'Login': token
+            }
+        });
+
+        const result = await response.json();
+        const data = result.data || result;
+
+        if (data.success) {
+            if (data.status === 'success') {
+                clearInterval(checkPaymentStatusInterval);
+                displayPaymentStatus('success', 'Pembayaran berhasil! Terima kasih.');
+                fetchPaymentStats();
+            } else if (data.status === 'failed') {
+                clearInterval(checkPaymentStatusInterval);
+                displayPaymentStatus('failed', 'Pembayaran gagal. Silakan coba lagi.');
+            }
+        }
+    } catch (error) {
+        console.error('Error checking payment status:', error);
+    }
+}
+
+// Display payment status
+function displayPaymentStatus(status, message) {
+    clearInterval(countdownInterval);
+
+    document.getElementById('paymentContainer').style.display = 'none';
+
+    const statusElement = document.getElementById('paymentStatus');
+    statusElement.textContent = message;
+    statusElement.className = 'notification ' + (status === 'success' ? 'is-success' : 'is-danger');
+
+    document.getElementById('statusContainer').style.display = 'block';
+}
+
+// Reset form
+function resetForm() {
+    document.getElementById('amount').value = '';
+    orderId = null;
+    clearInterval(countdownInterval);
+    clearInterval(checkPaymentStatusInterval);
+
+    document.getElementById('statusContainer').style.display = 'none';
+    document.getElementById('paymentContainer').style.display = 'none';
+    document.getElementById('orderForm').style.display = 'block';
+    document.getElementById('userInfo').style.display = 'block';
+
+    checkQueueStatus();
+}
+
+// Fetch payment stats
+async function fetchPaymentStats() {
+    try {
+        const response = await fetch(`${API_URL}/api/crowdfunding/totals`);
+        const data = await response.json();
+
+        document.getElementById('totalAmount').textContent = `Rp ${formatCurrency(data.totalQRISAmount || 0)}`;
+        document.getElementById('totalCount').textContent = formatCurrency(data.qrisCount || 0);
+    } catch (error) {
+        console.error('Error fetching stats:', error);
+    }
+}
+
+// Initialize
+getUserInfo();
+checkQueueStatus();
+fetchPaymentStats();
+</script>
