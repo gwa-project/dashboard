@@ -22,11 +22,11 @@ jobs:
         node-version: '16'
 
     - name: Install dependencies
-      working-directory: dashboard
+      working-directory: ./dashboard
       run: npm install
 
     - name: Build Vue.js application
-      working-directory: dashboard
+      working-directory: ./dashboard
       run: npm run build
 
     - name: Authenticate to Google Cloud
@@ -43,7 +43,7 @@ jobs:
       run: gcloud auth list
 
     - name: Create app.yaml
-      working-directory: dashboard/dist
+      working-directory: ./dashboard/dist
       run: |
         cat > app.yaml << EOF
         runtime: python39
@@ -63,7 +63,7 @@ jobs:
         EOF
 
     - name: Deploy to App Engine
-      working-directory: dashboard/dist
+      working-directory: ./dashboard/dist
       run: |
         gcloud app deploy --quiet --project=${{ secrets.GCP_PROJECT_ID }}
 
