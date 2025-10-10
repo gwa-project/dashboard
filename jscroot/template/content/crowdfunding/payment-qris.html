@@ -1,0 +1,653 @@
+<div class="content-area">
+    <div class="crowdfunding-container">
+        <div class="payment-header">
+            <a href="#home" class="back-btn">
+                <i class='bx bx-arrow-back'></i> Kembali
+            </a>
+            <h1>Pembayaran QRIS</h1>
+            <p>Crowdfunding Payment System</p>
+        </div>
+
+        <!-- User Info -->
+        <div id="userInfo" class="user-info-card">
+            <p><strong>Status:</strong> <span id="userStatus">Loading...</span></p>
+        </div>
+
+        <!-- Queue Info -->
+        <div id="queueInfo" class="queue-info" style="display: none;">
+            <i class='bx bx-time-five'></i>
+            <p><strong>Status:</strong> Sedang ada pembayaran berlangsung</p>
+            <p><strong>Berakhir dalam:</strong> <span id="queueTimer" class="queue-timer">00:00</span></p>
+            <p>Mohon tunggu hingga pembayaran selesai atau waktu habis.</p>
+        </div>
+
+        <!-- Payment Form -->
+        <div id="orderForm" class="payment-form">
+            <div class="form-group">
+                <label for="amount">Jumlah Pembayaran (Rp)</label>
+                <input type="number" id="amount" class="form-control" placeholder="Masukkan jumlah pembayaran" min="1000">
+            </div>
+
+            <button id="submitBtn" class="btn btn-primary" onclick="createOrder()">
+                <i class='bx bx-qr'></i> Buat Pembayaran
+            </button>
+
+            <div id="queueMessage" class="alert alert-warning" style="display: none;">
+                Sedang ada pembayaran berlangsung. Mohon tunggu...
+            </div>
+        </div>
+
+        <!-- QRIS Payment Container -->
+        <div id="paymentContainer" class="payment-display" style="display: none;">
+            <div class="order-details">
+                <p><strong>Order ID:</strong> <span id="orderId"></span></p>
+                <p><strong>Nama:</strong> <span id="customerName"></span></p>
+                <p><strong>No. HP:</strong> <span id="customerPhone"></span></p>
+                <p><strong>Jumlah:</strong> Rp <span id="paymentAmount"></span></p>
+            </div>
+
+            <p class="qris-instruction">Silakan scan kode QRIS di bawah ini untuk melakukan pembayaran</p>
+            <p class="warning-text">
+                ⚠️ JANGAN TINGGALKAN ATAU KELUAR DARI HALAMAN INI DAN JANGAN REFRESH JUGA !!!
+            </p>
+
+            <div class="timer-display">
+                <i class='bx bx-time'></i>
+                <span id="countdown">3600</span> detik
+            </div>
+
+            <img id="qrisImage" class="qris-image" src="" alt="QRIS Code">
+
+            <p class="info-text">
+                <i class='bx bx-info-circle'></i> Pembayaran akan otomatis kedaluwarsa jika tidak diselesaikan dalam waktu yang ditentukan
+            </p>
+        </div>
+
+        <!-- Status Container -->
+        <div id="statusContainer" style="display: none;">
+            <div id="paymentStatus" class="alert"></div>
+            <button id="newPaymentBtn" class="btn btn-secondary" onclick="resetForm()">
+                <i class='bx bx-refresh'></i> Buat Pembayaran Baru
+            </button>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <h3>Statistik Pembayaran</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class='bx bx-money'></i></div>
+                    <div class="stat-content">
+                        <h4>Total Pembayaran</h4>
+                        <p class="stat-value" id="totalAmount">Rp 0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class='bx bx-receipt'></i></div>
+                    <div class="stat-content">
+                        <h4>Jumlah Transaksi</h4>
+                        <p class="stat-value" id="totalCount">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.crowdfunding-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.payment-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.payment-header h1 {
+    color: var(--text-primary);
+    margin: 10px 0;
+}
+
+.payment-header p {
+    color: var(--text-secondary);
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--primary-color);
+    text-decoration: none;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.back-btn:hover {
+    color: #ff8fab;
+}
+
+.user-info-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.queue-info {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.queue-timer {
+    color: #e74c3c;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.payment-form {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+}
+
+.btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: linear-gradient(145deg, #ff6b9d, #ff8fab);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(145deg, #ff8fab, #ff6b9d);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.payment-display {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 25px;
+    text-align: center;
+}
+
+.order-details {
+    background: var(--hover-bg);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.order-details p {
+    margin: 8px 0;
+}
+
+.qris-instruction {
+    font-size: 16px;
+    margin: 15px 0;
+    color: var(--text-primary);
+}
+
+.warning-text {
+    font-weight: bold;
+    font-size: 14px;
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 15px 0;
+}
+
+.timer-display {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e74c3c;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.qris-image {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    background: white;
+}
+
+.info-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #d1ecf1;
+    color: #0c5460;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin: 15px 0;
+    text-align: center;
+    font-weight: 600;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffc107;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #28a745;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #dc3545;
+}
+
+.stats-section {
+    margin-top: 30px;
+}
+
+.stats-section h3 {
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.stat-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.stat-icon {
+    font-size: 40px;
+    color: #ff6b9d;
+}
+
+.stat-content h4 {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0 0 8px 0;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff6b9d;
+    margin: 0;
+}
+</style>
+
+<script>
+let orderId = null;
+let countdownInterval = null;
+let checkPaymentStatusInterval = null;
+let queueTimerInterval = null;
+let userInfo = {
+    name: "",
+    phoneNumber: "",
+    npm: ""
+};
+
+// Get API URL from config or use default
+const API_URL = window.CONFIG?.apiUrl || "http://localhost:8080";
+
+// Get token from cookies
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return "";
+}
+
+// Format currency
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('id-ID').format(amount);
+}
+
+// Format time
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+// Get user info
+async function getUserInfo() {
+    try {
+        const token = getCookie("login");
+        if (!token) {
+            document.getElementById('userStatus').innerHTML = '❌ Tidak ada token login';
+            document.getElementById('submitBtn').disabled = true;
+            return;
+        }
+
+        const response = await fetch(`${API_URL}/api/crowdfunding/userinfo`, {
+            headers: {
+                'Login': token
+            }
+        });
+
+        if (!response.ok) throw new Error('Failed to get user info');
+
+        const data = await response.json();
+
+        userInfo = {
+            name: data.name || data.data?.name || "",
+            phoneNumber: data.phoneNumber || data.data?.phoneNumber || "",
+            npm: data.npm || data.data?.npm || ""
+        };
+
+        if (userInfo.name && userInfo.phoneNumber) {
+            document.getElementById('userStatus').innerHTML = `
+                ✅ <strong>${userInfo.name}</strong><br>
+                📱 ${userInfo.phoneNumber}
+            `;
+            document.getElementById('submitBtn').disabled = false;
+        } else {
+            document.getElementById('userStatus').innerHTML = '⚠️ Data user tidak lengkap';
+            document.getElementById('submitBtn').disabled = true;
+        }
+    } catch (error) {
+        console.error('Error getting user info:', error);
+        document.getElementById('userStatus').innerHTML = '❌ Gagal mendapatkan info user';
+        document.getElementById('submitBtn').disabled = true;
+    }
+}
+
+// Check queue status
+async function checkQueueStatus() {
+    try {
+        const response = await fetch(`${API_URL}/api/crowdfunding/queueStatus`);
+        const result = await response.json();
+        const data = result.data || result;
+
+        if (data.success && data.isProcessing) {
+            document.getElementById('queueInfo').style.display = 'block';
+            document.getElementById('queueMessage').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+
+            if (data.expiryTime) {
+                startQueueTimer(data.expiryTime);
+            }
+
+            setTimeout(checkQueueStatus, 5000);
+        } else {
+            document.getElementById('queueInfo').style.display = 'none';
+            document.getElementById('queueMessage').style.display = 'none';
+            if (userInfo.name && userInfo.phoneNumber) {
+                document.getElementById('submitBtn').disabled = false;
+            }
+            clearInterval(queueTimerInterval);
+        }
+    } catch (error) {
+        console.error('Error checking queue:', error);
+        setTimeout(checkQueueStatus, 10000);
+    }
+}
+
+// Start queue timer
+function startQueueTimer(expiryTimeStr) {
+    clearInterval(queueTimerInterval);
+    const expiryTime = new Date(expiryTimeStr);
+
+    queueTimerInterval = setInterval(() => {
+        const now = new Date();
+        const timeLeft = Math.max(0, Math.floor((expiryTime - now) / 1000));
+
+        if (timeLeft <= 0) {
+            clearInterval(queueTimerInterval);
+            document.getElementById('queueInfo').style.display = 'none';
+            document.getElementById('queueMessage').style.display = 'none';
+            if (userInfo.name && userInfo.phoneNumber) {
+                document.getElementById('submitBtn').disabled = false;
+            }
+            checkQueueStatus();
+        } else {
+            document.getElementById('queueTimer').textContent = formatTime(timeLeft);
+        }
+    }, 1000);
+}
+
+// Create QRIS order
+async function createOrder() {
+    const amount = parseFloat(document.getElementById('amount').value);
+
+    if (isNaN(amount) || amount <= 0) {
+        alert('Silakan masukkan jumlah pembayaran yang valid');
+        return;
+    }
+
+    if (!userInfo.name || !userInfo.phoneNumber) {
+        alert('Data pengguna tidak lengkap');
+        return;
+    }
+
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtn').innerHTML = '<i class="bx bx-loader-alt bx-spin"></i> Memproses...';
+
+    try {
+        const token = getCookie("login");
+        const response = await fetch(`${API_URL}/api/crowdfunding/qris/createOrder`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Login': token
+            },
+            body: JSON.stringify({ amount })
+        });
+
+        const result = await response.json();
+        const data = result.data || result;
+
+        document.getElementById('submitBtn').disabled = false;
+        document.getElementById('submitBtn').innerHTML = '<i class="bx bx-qr"></i> Buat Pembayaran';
+
+        if (data.success) {
+            orderId = data.orderId;
+
+            document.getElementById('orderId').textContent = data.orderId;
+            document.getElementById('customerName').textContent = userInfo.name;
+            document.getElementById('customerPhone').textContent = userInfo.phoneNumber;
+            document.getElementById('paymentAmount').textContent = formatCurrency(amount);
+            document.getElementById('qrisImage').src = data.qrisImageUrl || data.QRISImageURL;
+
+            document.getElementById('orderForm').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'none';
+            document.getElementById('paymentContainer').style.display = 'block';
+
+            startCountdown();
+            checkPaymentStatusInterval = setInterval(checkPaymentStatus, 3000);
+        } else if (data.queueStatus) {
+            document.getElementById('queueMessage').style.display = 'block';
+            document.getElementById('queueInfo').style.display = 'block';
+            document.getElementById('submitBtn').disabled = true;
+
+            if (data.expiryTime) {
+                startQueueTimer(data.expiryTime);
+            }
+
+            setTimeout(checkQueueStatus, 5000);
+            alert('Sedang ada pembayaran berlangsung. Mohon tunggu.');
+        } else {
+            alert('Gagal membuat pembayaran: ' + (data.message || 'Unknown error'));
+        }
+    } catch (error) {
+        console.error('Error creating order:', error);
+        document.getElementById('submitBtn').disabled = false;
+        document.getElementById('submitBtn').innerHTML = '<i class="bx bx-qr"></i> Buat Pembayaran';
+        alert('Terjadi kesalahan. Silakan coba lagi.');
+    }
+}
+
+// Start countdown
+function startCountdown() {
+    let timeLeft = 3600;
+    document.getElementById('countdown').textContent = timeLeft;
+
+    countdownInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById('countdown').textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(countdownInterval);
+            displayPaymentStatus('failed', 'Pembayaran kedaluwarsa. Silakan coba lagi.');
+        }
+    }, 1000);
+}
+
+// Check payment status
+async function checkPaymentStatus() {
+    if (!orderId) return;
+
+    try {
+        const token = getCookie("login");
+        const response = await fetch(`${API_URL}/api/crowdfunding/checkPayment/${orderId}`, {
+            headers: {
+                'Login': token
+            }
+        });
+
+        const result = await response.json();
+        const data = result.data || result;
+
+        if (data.success) {
+            if (data.status === 'success') {
+                clearInterval(checkPaymentStatusInterval);
+                displayPaymentStatus('success', 'Pembayaran berhasil! Terima kasih.');
+                fetchPaymentStats();
+            } else if (data.status === 'failed') {
+                clearInterval(checkPaymentStatusInterval);
+                displayPaymentStatus('failed', 'Pembayaran gagal. Silakan coba lagi.');
+            }
+        }
+    } catch (error) {
+        console.error('Error checking payment status:', error);
+    }
+}
+
+// Display payment status
+function displayPaymentStatus(status, message) {
+    clearInterval(countdownInterval);
+
+    document.getElementById('paymentContainer').style.display = 'none';
+
+    const statusElement = document.getElementById('paymentStatus');
+    statusElement.textContent = message;
+    statusElement.className = 'alert ' + (status === 'success' ? 'alert-success' : 'alert-danger');
+
+    document.getElementById('statusContainer').style.display = 'block';
+}
+
+// Reset form
+function resetForm() {
+    document.getElementById('amount').value = '';
+    orderId = null;
+    clearInterval(countdownInterval);
+    clearInterval(checkPaymentStatusInterval);
+
+    document.getElementById('statusContainer').style.display = 'none';
+    document.getElementById('paymentContainer').style.display = 'none';
+    document.getElementById('orderForm').style.display = 'block';
+    document.getElementById('userInfo').style.display = 'block';
+
+    checkQueueStatus();
+}
+
+// Fetch payment stats
+async function fetchPaymentStats() {
+    try {
+        const response = await fetch(`${API_URL}/api/crowdfunding/totals`);
+        const data = await response.json();
+
+        document.getElementById('totalAmount').textContent = `Rp ${formatCurrency(data.totalQRISAmount || 0)}`;
+        document.getElementById('totalCount').textContent = formatCurrency(data.qrisCount || 0);
+    } catch (error) {
+        console.error('Error fetching stats:', error);
+    }
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+    getUserInfo();
+    checkQueueStatus();
+    fetchPaymentStats();
+});
+</script>

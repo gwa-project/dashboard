@@ -7,12 +7,12 @@
   --nav-width: 219px;
 
   /*========== Colors ==========*/
-  --first-color: #3273dc;
-  --first-color-light: #f4f0fa;
-  --title-color: #19181b;
+  --first-color: #ff6b9d;
+  --first-color-light: #fff0f5;
+  --title-color: #2c3e50;
   --text-color: #58555e;
   --text-color-light: #a5a1aa;
-  --body-color: #f9f6fd;
+  --body-color: #fff5f8;
   --container-color: #ffffff;
 
   /*========== Font and typography ==========*/
@@ -72,8 +72,8 @@ img {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: var(--container-color);
-  box-shadow: 0 1px 0 rgba(22, 8, 43, 0.1);
+  background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
+  box-shadow: 0 2px 10px rgba(255, 107, 157, 0.2);
   padding: 0 1rem;
   z-index: var(--z-fixed);
 }
@@ -86,13 +86,13 @@ img {
 }
 
 .header__toggle {
-  color: var(--title-color);
+  color: #ffffff;
   font-size: 1.25rem;
   cursor: pointer;
 }
 
 .header__title {
-  color: var(--title-color);
+  color: #ffffff;
   font-weight: var(--font-semi-bold);
   margin: 0;
   font-size: 1.2rem;
@@ -113,13 +113,13 @@ img {
 
 .header__account-name {
   font-weight: var(--font-medium);
-  color: var(--title-color);
+  color: #ffffff;
   font-size: var(--small-font-size);
 }
 
 .header__account-email {
   font-size: var(--smaller-font-size);
-  color: var(--text-color-light);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /*========== NAV ==========*/
