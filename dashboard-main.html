@@ -312,11 +312,11 @@
                             <span id="navUserName">Account</span>
                         </a>
                         <div class="navbar-dropdown">
-                            <a class="navbar-item" onclick="showSection('profile')">
+                            <a class="navbar-item" href="javascript:loadPage('nav-profile')">
                                 <i class="fa fa-user" style="margin-right: 0.5rem;"></i>
                                 Profile
                             </a>
-                            <a class="navbar-item" onclick="showSection('settings')">
+                            <a class="navbar-item" href="javascript:loadPage('nav-settings')">
                                 <i class="fa fa-cog" style="margin-right: 0.5rem;"></i>
                                 Settings
                             </a>
@@ -336,7 +336,7 @@
         <aside class="column is-2 aside">
             <div>
                 <div class="compose has-text-centered">
-                    <a class="button is-danger is-block is-bold" onclick="showSection('dashboard')">
+                    <a class="button is-danger is-block is-bold" href="javascript:loadPage('nav-dashboard')">
                         <span class="compose">Dashboard</span>
                     </a>
                 </div>
@@ -366,8 +366,19 @@
         </aside>
 
         <div class="column dashboard-content">
-            <!-- Dashboard Section -->
-            <div id="dashboard-section">
+            <div id="content-area">
+                <!-- Content will be loaded here dynamically -->
+                <div class="has-text-centered" style="padding: 3rem;">
+                    <i class="fa fa-spinner fa-spin fa-3x" style="color: #ff6b9d;"></i>
+                    <p style="margin-top: 1rem;">Loading...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- REMOVE OLD SECTIONS - Start removing from here -->
+    <div style="display:none;">
+        <div id="old-dashboard-section">
                 <div class="welcome-section">
                     <div class="has-text-centered">
                         <div class="user-avatar" id="userAvatarMain">
@@ -722,6 +733,8 @@
             // Check authentication and load data
             if (checkAuth()) {
                 loadUserData();
+                // Load dashboard page by default
+                loadPage('nav-dashboard');
             }
         });
     </script>
