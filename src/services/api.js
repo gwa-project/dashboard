@@ -36,7 +36,7 @@ export const authAPI = {
     const data = await handleResponse(response);
 
     // Store tokens
-    if (data.success && data.data?.tokens) {
+    if (data.success && data.data && data.data.tokens) {
       localStorage.setItem('gwa_access_token', data.data.tokens.access_token);
       if (data.data.tokens.refresh_token) {
         localStorage.setItem('gwa_refresh_token', data.data.tokens.refresh_token);
