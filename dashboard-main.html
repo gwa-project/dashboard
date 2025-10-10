@@ -13,17 +13,21 @@
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
-            background: #f8f9fa;
+            background: linear-gradient(to bottom, #fff5f8 0%, #ffffff 100%);
+            min-height: 100vh;
         }
 
         .navbar {
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: white;
+            box-shadow: 0 2px 15px rgba(255, 107, 157, 0.1);
+            border-bottom: 2px solid rgba(255, 107, 157, 0.1);
         }
 
         .aside {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff6b9d 0%, #ff8fab 100%);
             color: white;
             min-height: calc(100vh - 52px);
+            box-shadow: 2px 0 15px rgba(255, 107, 157, 0.2);
         }
 
         .aside .item {
@@ -74,21 +78,38 @@
 
         .stat-card {
             background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.1);
             text-align: center;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 107, 157, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 30px rgba(255, 107, 157, 0.2);
         }
 
         .stat-number {
             font-size: 2.5rem;
             font-weight: 700;
-            color: #667eea;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 0.5rem;
         }
 
@@ -101,23 +122,39 @@
 
         .welcome-section {
             background: white;
-            border-radius: 12px;
-            padding: 2rem;
+            border-radius: 20px;
+            padding: 3rem;
             margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 25px rgba(255, 107, 157, 0.15);
+            border: 1px solid rgba(255, 107, 157, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 107, 157, 0.05) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .user-avatar {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin: 0 auto 1rem;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.3);
+            border: 4px solid white;
         }
 
         .quick-actions {
@@ -129,39 +166,66 @@
 
         .action-card {
             background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 16px;
+            padding: 2rem;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(255, 107, 157, 0.1);
             transition: all 0.3s ease;
             text-decoration: none;
             color: inherit;
+            border: 1px solid rgba(255, 107, 157, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b9d, #ff8fab);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
 
         .action-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.2);
             color: inherit;
         }
 
+        .action-card:hover::after {
+            transform: scaleX(1);
+        }
+
         .action-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin: 0 auto 1rem;
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover .action-icon {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.4);
         }
 
         .recent-activity {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.1);
+            border: 1px solid rgba(255, 107, 157, 0.1);
         }
 
         .activity-item {
@@ -176,15 +240,46 @@
         }
 
         .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #667eea;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             margin-right: 1rem;
+            box-shadow: 0 3px 10px rgba(255, 107, 157, 0.2);
+        }
+
+        /* Update button primary */
+        .button.is-primary {
+            background: linear-gradient(135deg, #ff6b9d, #ff8fab) !important;
+            border: none !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .button.is-primary:hover {
+            background: linear-gradient(135deg, #ff8fab, #ff6b9d) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3) !important;
+        }
+
+        /* Smooth animations */
+        * {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Title gradient */
+        .title.is-3, .title.is-4 {
+            position: relative;
+            z-index: 1;
+        }
+
+        .box {
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(255, 107, 157, 0.1);
+            border: 1px solid rgba(255, 107, 157, 0.1);
         }
     </style>
 </head>
@@ -194,8 +289,8 @@
         <div class="container">
             <div class="navbar-brand">
                 <a class="navbar-item" href="index.html">
-                    <i class="fa fa-shield" style="color: #667eea; margin-right: 0.5rem;"></i>
-                    <strong>GWA Project</strong>
+                    <i class="fa fa-shield" style="color: #ff6b9d; margin-right: 0.5rem;"></i>
+                    <strong style="background: linear-gradient(135deg, #ff6b9d, #ff8fab); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">GWA Project</strong>
                 </a>
 
                 <div class="navbar-burger burger" data-target="navMenu">
@@ -252,6 +347,10 @@
                     <a href="#" class="item" onclick="showSection('users')">
                         <span class="icon"><i class="fa fa-users"></i></span>
                         <span class="name">Users</span>
+                    </a>
+                    <a href="index.html#crowdfunding/payment-qris" class="item">
+                        <span class="icon"><i class="fa fa-qrcode"></i></span>
+                        <span class="name">QRIS Payment</span>
                     </a>
                     <a href="#" class="item" onclick="showSection('settings')">
                         <span class="icon"><i class="fa fa-cog"></i></span>
@@ -560,7 +659,7 @@
                         title: 'Success!',
                         text: 'Profile updated successfully!',
                         icon: 'success',
-                        confirmButtonColor: '#667eea'
+                        confirmButtonColor: '#ff6b9d'
                     });
                     loadUserData(); // Refresh user data
                 } else {
@@ -568,7 +667,7 @@
                         title: 'Error!',
                         text: data.error || 'Failed to update profile',
                         icon: 'error',
-                        confirmButtonColor: '#667eea'
+                        confirmButtonColor: '#ff6b9d'
                     });
                 }
             } catch (error) {
@@ -577,7 +676,7 @@
                     title: 'Error!',
                     text: 'An error occurred while updating profile',
                     icon: 'error',
-                    confirmButtonColor: '#667eea'
+                    confirmButtonColor: '#ff6b9d'
                 });
             }
         }
