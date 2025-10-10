@@ -341,23 +341,23 @@
                     </a>
                 </div>
                 <div class="main">
-                    <a href="#" class="item active" onclick="showSection('dashboard')">
+                    <a href="javascript:loadPage('nav-dashboard')" class="item active" id="menu-dashboard">
                         <span class="icon"><i class="fa fa-dashboard"></i></span>
                         <span class="name">Dashboard</span>
                     </a>
-                    <a href="#" class="item" onclick="showSection('profile')">
+                    <a href="javascript:loadPage('nav-profile')" class="item" id="menu-profile">
                         <span class="icon"><i class="fa fa-user"></i></span>
                         <span class="name">Profile</span>
                     </a>
-                    <a href="#" class="item" onclick="showSection('users')">
+                    <a href="javascript:loadPage('nav-users')" class="item" id="menu-users">
                         <span class="icon"><i class="fa fa-users"></i></span>
                         <span class="name">Users</span>
                     </a>
-                    <a href="index.html#crowdfunding/payment-qris" class="item">
+                    <a href="javascript:loadPage('nav-qris-payment')" class="item" id="menu-qris">
                         <span class="icon"><i class="fa fa-qrcode"></i></span>
                         <span class="name">QRIS Payment</span>
                     </a>
-                    <a href="#" class="item" onclick="showSection('settings')">
+                    <a href="javascript:loadPage('nav-settings')" class="item" id="menu-settings">
                         <span class="icon"><i class="fa fa-cog"></i></span>
                         <span class="name">Settings</span>
                     </a>
@@ -586,26 +586,47 @@
         }
 
         // Show section
-        function showSection(sectionName) {
-            // Hide all sections
-            document.querySelectorAll('#dashboard-app > .column > div[id$="-section"]').forEach(section => {
-                section.classList.add('is-hidden');
-            });
+        // Load page content dynamically
+        async function loadPage(pageName) {
+            const contentArea = document.getElementById('content-area');
 
-            // Show selected section
-            const targetSection = document.getElementById(sectionName + '-section');
-            if (targetSection) {
-                targetSection.classList.remove('is-hidden');
-            }
+            // Show loading
+            contentArea.innerHTML = '<div class="has-text-centered" style="padding: 3rem;"><i class="fa fa-spinner fa-spin fa-3x" style="color: #ff6b9d;"></i><p style="margin-top: 1rem;">Loading...</p></div>';
 
-            // Update active menu item
-            document.querySelectorAll('.aside .item').forEach(item => {
-                item.classList.remove('active');
-            });
+            try {
+                const response = await fetch(`jscroot/template/${pageName}.html`);
+                if (!response.ok) throw new Error('Page not found');
 
-            const activeItem = document.querySelector(`.aside .item[onclick*="${sectionName}"]`);
-            if (activeItem) {
-                activeItem.classList.add('active');
+                const html = await response.text();
+                contentArea.innerHTML = html;
+
+                // Execute any scripts in the loaded content
+                const scripts = contentArea.querySelectorAll('script');
+                scripts.forEach(script => {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                    document.body.removeChild(newScript);
+                });
+
+                // Update active menu item
+                document.querySelectorAll('.aside .item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                const menuId = 'menu-' + pageName.replace('nav-', '');
+                const activeMenu = document.getElementById(menuId);
+                if (activeMenu) {
+                    activeMenu.classList.add('active');
+                }
+            } catch (error) {
+                console.error('Error loading page:', error);
+                contentArea.innerHTML = `
+                    <div class="notification is-danger">
+                        <button class="delete" onclick="this.parentElement.remove()"></button>
+                        <strong>Error!</strong> Failed to load page: ${pageName}
+                    </div>
+                `;
             }
         }
 
