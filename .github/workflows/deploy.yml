@@ -1,0 +1,75 @@
+name: Deploy Vue.js Dashboard to GCP
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  REGION: asia-southeast2
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '16'
+        cache: 'npm'
+        cache-dependency-path: dashboard/package-lock.json
+
+    - name: Install dependencies
+      working-directory: dashboard
+      run: npm ci
+
+    - name: Build Vue.js application
+      working-directory: dashboard
+      run: npm run build
+
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        create_credentials_file: true
+        export_environment_variables: true
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: Verify authentication
+      run: gcloud auth list
+
+    - name: Create app.yaml
+      working-directory: dashboard/dist
+      run: |
+        cat > app.yaml << EOF
+        runtime: python39
+
+        handlers:
+        - url: /
+          static_files: index.html
+          upload: index.html
+
+        - url: /(.*)
+          static_files: \1
+          upload: (.*)
+
+        - url: /.*
+          static_files: index.html
+          upload: index.html
+        EOF
+
+    - name: Deploy to App Engine
+      working-directory: dashboard/dist
+      run: |
+        gcloud app deploy --quiet --project=${{ secrets.GCP_PROJECT_ID }}
+
+    - name: Get deployed URL
+      run: |
+        APP_URL=$(gcloud app browse --no-launch-browser --project=${{ secrets.GCP_PROJECT_ID }})
+        echo "Dashboard deployed at: $APP_URL"
