@@ -103,7 +103,9 @@ export const userAPI = {
     const token = getToken();
     const response = await fetch(`${API_BASE_URL}/users`, {
       headers: {
-        'Login': token
+        'Authorization': `Bearer ${token}`,
+        'Login': token,
+        'Content-Type': 'application/json'
       }
     });
 
@@ -116,6 +118,7 @@ export const userAPI = {
     const response = await fetch(`${API_BASE_URL}/user`, {
       method: 'PUT',
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
         'Login': token
       },
@@ -133,7 +136,9 @@ export const qrisAPI = {
     const token = getToken();
     const response = await fetch(`${API_BASE_URL}/api/crowdfunding/userinfo`, {
       headers: {
-        'Login': token
+        'Authorization': `Bearer ${token}`,
+        'Login': token,
+        'Content-Type': 'application/json'
       }
     });
 
@@ -152,6 +157,7 @@ export const qrisAPI = {
     const response = await fetch(`${API_BASE_URL}/api/crowdfunding/qris/createOrder`, {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
         'Login': token
       },
@@ -166,7 +172,9 @@ export const qrisAPI = {
     const token = getToken();
     const response = await fetch(`${API_BASE_URL}/api/crowdfunding/checkPayment/${orderId}`, {
       headers: {
-        'Login': token
+        'Authorization': `Bearer ${token}`,
+        'Login': token,
+        'Content-Type': 'application/json'
       }
     });
 

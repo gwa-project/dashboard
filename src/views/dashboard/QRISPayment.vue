@@ -178,27 +178,25 @@ export default {
       this.loading = true;
 
       try {
-        const response = await api.qris.createOrder(this.amount);
-        const data = response.data || response;
+        // Use static QRIS image instead of API
+        this.orderId = 'ORDER-' + Date.now();
+        this.qrisImage = '/img/qris.jpeg'; // Static QRIS from public folder
+        this.customerName = user.name;
+        this.customerPhone = user.phonenumber;
+        this.showPayment = true;
 
-        if (data.success) {
-          this.orderId = data.orderId;
-          this.qrisImage = data.qrisImageUrl || data.QRISImageURL;
-          this.customerName = user.name;
-          this.customerPhone = user.phonenumber;
-          this.showPayment = true;
+        this.startCountdown();
+        this.startPaymentCheck();
 
-          this.startCountdown();
-          this.startPaymentCheck();
-        } else if (data.queueStatus) {
-          this.$swal({
-            icon: 'warning',
-            title: 'Payment in Progress',
-            text: 'Please wait for the current payment to complete'
-          });
-          this.checkQueue();
-        } else {
-          throw new Error(data.message || 'Failed to create payment');
+        // Still call API in background (optional)
+        try {
+          const response = await api.qris.createOrder(this.amount);
+          const data = response.data || response;
+          if (data.orderId) {
+            this.orderId = data.orderId;
+          }
+        } catch (apiError) {
+          console.log('API call failed, using static QRIS:', apiError);
         }
       } catch (error) {
         console.error('Create order error:', error);

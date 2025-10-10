@@ -1,0 +1,23 @@
+{
+  "name": "GWA Dashboard",
+  "short_name": "GWA",
+  "description": "GWA Project Dashboard",
+  "theme_color": "#5e72e4",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
