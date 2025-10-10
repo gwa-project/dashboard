@@ -13,12 +13,11 @@
 .git
 .gitignore
 
-# Node.js dependencies:
+# Node.js dependencies (will be installed during build)
 node_modules/
 
-# Source files (only dist is needed for deployment)
-src/
-public/
+# Build output (will be generated during build)
+dist/
 
 # Development files
 *.md
@@ -27,7 +26,7 @@ README*
 .vscode/
 .idea/
 
-# Build files
+# Build logs
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -36,15 +35,6 @@ yarn-error.log*
 # Testing
 /coverage
 /test
-
-# Config files
-.eslintrc*
-.prettierrc*
-babel.config.js
-jest.config.js
-vue.config.js
-package.json
-package-lock.json
 
 # GitHub
 .github/
