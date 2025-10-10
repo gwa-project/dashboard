@@ -6,14 +6,6 @@
         </div>
     </div>
 
-    <!-- User Info -->
-    <div class="box">
-        <h4 class="title is-5">Informasi User</h4>
-        <div id="userInfo">
-            <p><strong>Status:</strong> <span id="userStatus">Loading...</span></p>
-        </div>
-    </div>
-
     <!-- Queue Info -->
     <div id="queueInfo" class="notification is-warning" style="display: none;">
         <button class="delete" onclick="document.getElementById('queueInfo').style.display='none'"></button>
@@ -85,24 +77,6 @@
         </button>
     </div>
 
-    <!-- Stats Section -->
-    <div class="box">
-        <h4 class="title is-5">Statistik Pembayaran</h4>
-        <div class="columns">
-            <div class="column">
-                <div class="notification is-primary is-light has-text-centered">
-                    <p class="heading">Total Pembayaran</p>
-                    <p class="title is-4" id="totalAmount">Rp 0</p>
-                </div>
-            </div>
-            <div class="column">
-                <div class="notification is-info is-light has-text-centered">
-                    <p class="heading">Jumlah Transaksi</p>
-                    <p class="title is-4" id="totalCount">0</p>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>
@@ -136,46 +110,27 @@ function formatTime(seconds) {
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 }
 
-// Get user info
-async function getUserInfo() {
-    try {
-        const token = getToken();
-        if (!token) {
-            document.getElementById('userStatus').innerHTML = '<span class="tag is-danger">❌ Tidak ada token login</span>';
-            document.getElementById('submitBtn').disabled = true;
-            return;
-        }
+// Get user info from localStorage
+function getUserInfo() {
+    const user = JSON.parse(localStorage.getItem('gwa_user') || '{}');
 
-        const response = await fetch(`${API_URL}/api/crowdfunding/userinfo`, {
-            headers: {
-                'Login': token
-            }
-        });
+    userInfo = {
+        name: user.name || "",
+        phoneNumber: user.phonenumber || "",
+        npm: user.npm || ""
+    };
 
-        if (!response.ok) throw new Error('Failed to get user info');
-
-        const data = await response.json();
-
-        userInfo = {
-            name: data.name || data.data?.name || "",
-            phoneNumber: data.phoneNumber || data.data?.phoneNumber || "",
-            npm: data.npm || data.data?.npm || ""
-        };
-
-        if (userInfo.name && userInfo.phoneNumber) {
-            document.getElementById('userStatus').innerHTML = `
-                <span class="tag is-success">✅ ${userInfo.name}</span>
-                <span class="tag is-info">📱 ${userInfo.phoneNumber}</span>
-            `;
-            document.getElementById('submitBtn').disabled = false;
-        } else {
-            document.getElementById('userStatus').innerHTML = '<span class="tag is-warning">⚠️ Data user tidak lengkap</span>';
-            document.getElementById('submitBtn').disabled = true;
-        }
-    } catch (error) {
-        console.error('Error getting user info:', error);
-        document.getElementById('userStatus').innerHTML = '<span class="tag is-danger">❌ Gagal mendapatkan info user</span>';
+    // Enable submit button if user data exists
+    if (userInfo.name && userInfo.phoneNumber) {
+        document.getElementById('submitBtn').disabled = false;
+    } else {
         document.getElementById('submitBtn').disabled = true;
+        Swal.fire({
+            title: 'Data Tidak Lengkap',
+            text: 'Mohon lengkapi data profile Anda terlebih dahulu',
+            icon: 'warning',
+            confirmButtonColor: '#ff6b9d'
+        });
     }
 }
 
@@ -288,7 +243,6 @@ async function createOrder() {
             document.getElementById('qrisImage').src = data.qrisImageUrl || data.QRISImageURL;
 
             document.getElementById('orderForm').style.display = 'none';
-            document.getElementById('userInfo').style.display = 'none';
             document.getElementById('paymentContainer').style.display = 'block';
 
             startCountdown();
@@ -367,7 +321,6 @@ async function checkPaymentStatus() {
             if (data.status === 'success') {
                 clearInterval(checkPaymentStatusInterval);
                 displayPaymentStatus('success', 'Pembayaran berhasil! Terima kasih.');
-                fetchPaymentStats();
             } else if (data.status === 'failed') {
                 clearInterval(checkPaymentStatusInterval);
                 displayPaymentStatus('failed', 'Pembayaran gagal. Silakan coba lagi.');
@@ -401,26 +354,11 @@ function resetForm() {
     document.getElementById('statusContainer').style.display = 'none';
     document.getElementById('paymentContainer').style.display = 'none';
     document.getElementById('orderForm').style.display = 'block';
-    document.getElementById('userInfo').style.display = 'block';
 
     checkQueueStatus();
-}
-
-// Fetch payment stats
-async function fetchPaymentStats() {
-    try {
-        const response = await fetch(`${API_URL}/api/crowdfunding/totals`);
-        const data = await response.json();
-
-        document.getElementById('totalAmount').textContent = `Rp ${formatCurrency(data.totalQRISAmount || 0)}`;
-        document.getElementById('totalCount').textContent = formatCurrency(data.qrisCount || 0);
-    } catch (error) {
-        console.error('Error fetching stats:', error);
-    }
 }
 
 // Initialize
 getUserInfo();
 checkQueueStatus();
-fetchPaymentStats();
 </script>

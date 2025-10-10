@@ -596,10 +596,12 @@
             }
         }
 
-        // Show section
         // Load page content dynamically
         async function loadPage(pageName) {
             const contentArea = document.getElementById('content-area');
+
+            // Update URL hash
+            window.location.hash = pageName;
 
             // Show loading
             contentArea.innerHTML = '<div class="has-text-centered" style="padding: 3rem;"><i class="fa fa-spinner fa-spin fa-3x" style="color: #ff6b9d;"></i><p style="margin-top: 1rem;">Loading...</p></div>';
@@ -718,6 +720,14 @@
             }
         }
 
+        // Handle hash change (for browser back/forward buttons)
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1); // Remove # symbol
+            if (hash && hash.startsWith('nav-')) {
+                loadPage(hash);
+            }
+        });
+
         // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', () => {
             const navbarBurger = document.querySelector('.navbar-burger');
@@ -733,8 +743,14 @@
             // Check authentication and load data
             if (checkAuth()) {
                 loadUserData();
-                // Load dashboard page by default
-                loadPage('nav-dashboard');
+
+                // Check if there's a hash in URL, if yes load that page, otherwise load dashboard
+                const hash = window.location.hash.substring(1);
+                if (hash && hash.startsWith('nav-')) {
+                    loadPage(hash);
+                } else {
+                    loadPage('nav-dashboard');
+                }
             }
         });
     </script>
