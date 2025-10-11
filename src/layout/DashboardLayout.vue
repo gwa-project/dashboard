@@ -18,7 +18,7 @@
           <span>Profile</span>
         </router-link>
 
-        <router-link to="/dashboard/users" class="menu-item" active-class="active">
+        <router-link v-if="isAdmin" to="/dashboard/users" class="menu-item" active-class="active">
           <i class="ni ni-bullet-list-67"></i>
           <span>Users</span>
         </router-link>
@@ -76,7 +76,8 @@ export default {
     return {
       sidebarOpen: false,
       userName: 'User',
-      userInitial: 'U'
+      userInitial: 'U',
+      isAdmin: false
     };
   },
   methods: {
@@ -105,6 +106,8 @@ export default {
         this.userName = user.name;
         this.userInitial = user.name.charAt(0).toUpperCase();
       }
+      // Check if user is admin
+      this.isAdmin = user.role === 'admin';
     }
   },
   mounted() {

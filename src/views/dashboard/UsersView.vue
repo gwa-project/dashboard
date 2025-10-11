@@ -8,9 +8,15 @@
     <div class="users-card">
       <div class="card-header">
         <h3>All Users</h3>
-        <button @click="loadUsers" class="btn-refresh" :disabled="loading">
-          <i class="ni ni-refresh" :class="{ 'spin': loading }"></i>
-        </button>
+        <div class="header-actions">
+          <button @click="getWebhookSecret" class="btn-webhook" :disabled="loadingSecret">
+            <i class="ni ni-key-25"></i>
+            {{ loadingSecret ? 'Loading...' : 'Get Webhook Secret Key' }}
+          </button>
+          <button @click="loadUsers" class="btn-refresh" :disabled="loading">
+            <i class="ni ni-refresh" :class="{ 'spin': loading }"></i>
+          </button>
+        </div>
       </div>
 
       <div v-if="loading" class="loading-state">
@@ -67,6 +73,7 @@ export default {
     return {
       users: [],
       loading: false,
+      loadingSecret: false,
       error: null
     };
   },
@@ -88,6 +95,63 @@ export default {
         this.error = error.message || 'An error occurred while loading users';
       } finally {
         this.loading = false;
+      }
+    },
+    async getWebhookSecret() {
+      this.loadingSecret = true;
+
+      try {
+        const token = localStorage.getItem('gwa_access_token');
+        const response = await fetch('https://asia-southeast2-gwa-project-472118.cloudfunctions.net/go-gcp-function/api/crowdfunding/webhook-secret', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Login': token,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          this.$swal({
+            icon: 'success',
+            title: 'Webhook Secret Key',
+            html: `
+              <div style="text-align: left; margin-top: 1rem;">
+                <p><strong>Secret Key:</strong></p>
+                <input type="text" value="${data.secretKey}" readonly
+                       style="width: 100%; padding: 0.5rem; font-family: monospace; background: #f6f9fc; border: 1px solid #e9ecef; border-radius: 0.25rem; margin-bottom: 1rem;"
+                       onclick="this.select()">
+                <p style="font-size: 0.875rem; color: #8898aa; margin-bottom: 0.5rem;">
+                  <strong>Description:</strong> ${data.description}
+                </p>
+                <p style="font-size: 0.875rem; color: #8898aa;">
+                  Click the key to select and copy it for Macrodroid configuration.
+                </p>
+              </div>
+            `,
+            showConfirmButton: true,
+            confirmButtonText: 'Close'
+          });
+        } else {
+          this.$swal({
+            icon: 'error',
+            title: 'Failed',
+            text: data.error || 'Failed to get webhook secret key',
+            timer: 3000
+          });
+        }
+      } catch (error) {
+        console.error('Error getting webhook secret:', error);
+        this.$swal({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred while fetching webhook secret',
+          timer: 3000
+        });
+      } finally {
+        this.loadingSecret = false;
       }
     },
     formatDate(dateString) {
@@ -146,6 +210,38 @@ export default {
   font-size: 1.125rem;
   font-weight: 600;
   color: #32325d;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.btn-webhook {
+  background: linear-gradient(87deg, #11cdef 0, #1171ef 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.15s ease;
+}
+
+.btn-webhook:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+.btn-webhook:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .btn-refresh {
