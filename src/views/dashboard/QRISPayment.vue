@@ -164,6 +164,17 @@ export default {
         return;
       }
 
+      // Check if queue is processing (blocking other users)
+      if (this.queueInfo.isProcessing) {
+        this.$swal({
+          icon: 'warning',
+          title: 'Payment in Progress',
+          text: 'Another user is currently making a payment. Please wait until it completes or expires.',
+          timer: 3000
+        });
+        return;
+      }
+
       // Get user info
       const user = JSON.parse(localStorage.getItem('gwa_user') || '{}');
       if (!user.name || !user.phonenumber) {
@@ -178,33 +189,59 @@ export default {
       this.loading = true;
 
       try {
-        // Use static QRIS image instead of API
-        this.orderId = 'ORDER-' + Date.now();
-        this.qrisImage = '/img/qris.jpeg'; // Static QRIS from public folder
-        this.customerName = user.name;
-        this.customerPhone = user.phonenumber;
-        this.showPayment = true;
+        // Call API first to check queue and create order
+        const response = await api.qris.createOrder(this.amount);
+        const data = response.data || response;
 
-        this.startCountdown();
-        this.startPaymentCheck();
+        // If queue is active (another user payment in progress)
+        if (data.queueStatus && data.queueStatus.isProcessing) {
+          this.$swal({
+            icon: 'warning',
+            title: 'Payment Queue Active',
+            html: `Another payment is in progress.<br>Please wait <strong>${this.formatTime(data.queueStatus.remainingTime || 0)}</strong>`,
+            timer: 4000
+          });
+          this.checkQueue(); // Update queue info
+          this.loading = false;
+          return;
+        }
 
-        // Still call API in background (optional)
-        try {
-          const response = await api.qris.createOrder(this.amount);
-          const data = response.data || response;
-          if (data.orderId) {
-            this.orderId = data.orderId;
-          }
-        } catch (apiError) {
-          console.log('API call failed, using static QRIS:', apiError);
+        // Success - show payment
+        if (data.success || data.orderId) {
+          this.orderId = data.orderId || 'ORDER-' + Date.now();
+          this.qrisImage = '/img/qris.jpeg'; // Static QRIS from public folder
+          this.customerName = user.name;
+          this.customerPhone = user.phonenumber;
+          this.showPayment = true;
+
+          // Mark queue as processing
+          this.queueInfo.isProcessing = true;
+          this.queueInfo.expiryTime = new Date(Date.now() + 3600000).toISOString(); // 1 hour
+
+          this.startCountdown();
+          this.startPaymentCheck();
+        } else {
+          throw new Error(data.message || 'Failed to create payment');
         }
       } catch (error) {
         console.error('Create order error:', error);
-        this.$swal({
-          icon: 'error',
-          title: 'Error',
-          text: error.message || 'Failed to create payment'
-        });
+
+        // If 401/403 or queue error, show proper message
+        if (error.message.includes('queue') || error.message.includes('processing')) {
+          this.$swal({
+            icon: 'warning',
+            title: 'Payment Queue Busy',
+            text: 'Another payment is currently being processed. Please try again later.',
+            timer: 3000
+          });
+          this.checkQueue();
+        } else {
+          this.$swal({
+            icon: 'error',
+            title: 'Error',
+            text: error.message || 'Failed to create payment'
+          });
+        }
       } finally {
         this.loading = false;
       }
@@ -248,6 +285,12 @@ export default {
       this.paymentStatus = status;
       this.statusMessage = message;
 
+      // Release queue when payment completes or fails
+      this.queueInfo.isProcessing = false;
+      if (this.queueCheckInterval) {
+        clearInterval(this.queueCheckInterval);
+      }
+
       this.$swal({
         icon: status === 'success' ? 'success' : 'error',
         title: status === 'success' ? 'Success!' : 'Failed',
@@ -260,6 +303,9 @@ export default {
       this.qrisImage = '';
       this.showPayment = false;
       this.showStatus = false;
+
+      // Check queue status after reset
+      this.checkQueue();
       this.paymentStatus = '';
       this.statusMessage = '';
       this.countdown = 3600;
